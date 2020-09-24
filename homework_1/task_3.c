@@ -1,10 +1,11 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 const ARRAY_SIZE = 10000;
 
-int main() {
+int main()
+{
     char s1[ARRAY_SIZE];
     char s2[ARRAY_SIZE];
     int containNumber = 0;
