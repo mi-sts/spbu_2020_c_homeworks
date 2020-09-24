@@ -5,13 +5,17 @@ const ARRAY_SIZE = 100;
 int main()
 {
     int nubmerArray[ARRAY_SIZE][ARRAY_SIZE];
-    int n;
+    int n = 0;
+
+    printf("%s", "Введите длину стороны массива: ");
 
     scanf("%d", &n);
 
     for (int i = 0; i < n; ++i)
         for (int j = 0; j < n; ++j)
             nubmerArray[i][j] = i * n + (j + 1);
+
+    printf("%s", "Массив:\n");
 
     for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j)
@@ -27,6 +31,8 @@ int main()
     int y = n / 2;
     int directions[4][2] = { {0, -1}, {-1, 0}, {0, 1}, {1, 0} }; // Направление обхода(x, y).
     int directionIndex = 0;
+
+    printf("%s", "Получившаяся при обходе из центра спираль:\n");
 
     while (!(sideLength == n && sideCounter == n - 1)) // Цикл прерывается, когда длина стороны обхода равна n.
     {
