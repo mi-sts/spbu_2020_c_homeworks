@@ -17,9 +17,9 @@ int main()
 
     int temp;
 
-    for (int i = m; i < m+n; ++i) { // Сдвиг первого отрезка по всему массиву.
+    for (int i = m; i < m + n; ++i) { // Сдвиг первого отрезка по всему массиву.
         temp = shiftArray[i];
-        for (int j = i-1; j >= i - m; --j) {
+        for (int j = i - 1; j >= i - m; --j) {
             shiftArray[j + 1] = shiftArray[j];
             shiftArray[j] = temp;
         }
