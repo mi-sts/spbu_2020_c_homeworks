@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 const ARRAY_SIZE = 100000;
 
 int main()
