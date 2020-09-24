@@ -12,7 +12,7 @@ int main() {
     scanf("%s", s1);
     scanf("%s", s2);
 
-    for (int i = 0; i <= strlen(s1) - strlen(s2); ++i){ // От каждого элемента s1 идёт сравнение с s2.
+    for (int i = 0; i <= strlen(s1) - strlen(s2); ++i) { // От каждого элемента s1 идёт сравнение с s2.
         bool isContain = true;
 
         for (int j = 0; j < strlen(s2); ++j)
