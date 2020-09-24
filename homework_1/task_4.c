@@ -2,27 +2,35 @@
 
 int main()
 {
-    int n;
+    int n = 0;
     int result = 0;
+
+    printf("%s", "Введите число: ");
 
     scanf("%d", &n);
 
     if (n > 1) {
-        int l;
+        int num;
 
-        for (int i = 2; i < n+1; ++i) {
-            if (i % 2 != 0) { // Перебор делителей нечётного i до корня из i.
-                for (l = 3; (l * l <= i) && (i % l != 0); l += 2) {};
+        for (int nCurrent = 2; nCurrent < n + 1; ++nCurrent) {
+            if (nCurrent % 2 != 0) { // Перебор делителей нечётного nCurrent до корня из nCurrent.
+                num = 3;
 
-                if (l * l > i)
+                while (num * num <= nCurrent) {
+                    if (nCurrent % num == 0)
+                        break;
+                    num += 2;
+                }
+
+                if (num * num > nCurrent)
                     result++;
-            } else if (i == 2) { // Единственное простое чётное i.
+            } else if (nCurrent == 2) { // Единственное простое чётное i.
                 result++;
             }
         }
     }
 
-    printf("%d", result);
+    printf("%s%d%s%d", "Количество простых чисел, не превосходящих ", n, ": ", result);
 
     return 0;
 }
