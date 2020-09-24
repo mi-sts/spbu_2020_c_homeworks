@@ -5,33 +5,30 @@ const ARRAY_SIZE = 10000;
 
 int main()
 {
-    int n;
+    int n = 0;
     int numbers[ARRAY_SIZE];
-    int maxNumber;
+    int maxNumber = 0;
+
+    printf("%s", "Введите количество элементов в массиве: ");
 
     scanf("%d", &n);
+
+    printf("%s", "Введите элементы массива: ");
 
     for (int i = 0; i < n; ++i) {
         scanf("%d", &numbers[i]);
     }
 
-    int i, j;
     bool isInitialized = false;
 
-    for (i = 0; i < n - 1 && !isInitialized; ++i) // Инициализация maxNumber.
-        for (j = i + 1; j < n; ++j)
-            if (numbers[i] == numbers[j]) {
+    for (int i = 0; i < n - 1; ++i)
+        for (int j = i + 1; j < n; ++j)
+            if (numbers[i] == numbers[j] && (!isInitialized || numbers[i] > maxNumber)) {
                 maxNumber = numbers[i];
                 isInitialized = true;
-                break;
             }
 
-    for ( ; i < n - 1; ++i) // Дальнейший обход массива.
-        for (j = i + 1; j < n; ++j)
-            if (numbers[i] > maxNumber && numbers[i] == numbers[j])
-                maxNumber = numbers[i];
-
-    printf("%d", maxNumber);
+    printf("%s%d", "Максимальный элемент, встречающийся более 1-го раза: ", maxNumber);
 
     return 0;
 }
