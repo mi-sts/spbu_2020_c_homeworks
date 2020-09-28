@@ -29,9 +29,8 @@ int main()
                     result++;
             }
         }
+        printf("%s%d%s%d", "Количество простых чисел, не превосходящих ", number, ": ", result);
     }
-
-    printf("%s%d%s%d", "Количество простых чисел, не превосходящих ", number, ": ", result);
 
     return 0;
 }
