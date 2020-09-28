@@ -22,7 +22,6 @@ void findTerms(int difference, int maxTermValue, int findedTermsIndex)
     }
 }
 
-
 int main()
 {
     int N = 0;
