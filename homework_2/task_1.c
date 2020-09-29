@@ -25,7 +25,7 @@ int main()
     printf("%s", "Введите число которое хотите разложить на слагаемые: ");
     scanf("%d", &N);
 
-    int* termsArray = (int*) calloc(N, sizeof(int));
+    int* termsArray = (int*)calloc(N, sizeof(int));
     for (int i = 0; i < N; ++i)
         termsArray[i] = 0;
 
