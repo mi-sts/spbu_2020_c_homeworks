@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-long long findFactorial(long long n) {
-   return n > 1 ? findFactorial(n - 1) * n : 1;
+long long findFactorial(long long n)
+{
+    return n > 1 ? findFactorial(n - 1) * n : 1;
 }
 
 int main()
