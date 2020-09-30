@@ -26,8 +26,6 @@ int main()
     scanf("%d", &N);
 
     int* termsArray = (int*)calloc(N, sizeof(int));
-    for (int i = 0; i < N; ++i)
-        termsArray[i] = 0;
 
     printf("%s", "Полученные разложения на слагаемые:\n");
 
