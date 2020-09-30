@@ -1,5 +1,5 @@
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 // Получить цифру по индексу(от 0 до numberLength - 1).
 int getNumberDigit(int number, int digitIndex, int numberLength)
