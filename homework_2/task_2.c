@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include "../library/commonUtils/numericOperations.h"
 
 // Генерация псевдоослучайного числа заданной длины.
 int generateRandomNumber(int numberLength)
@@ -15,9 +16,51 @@ int generateRandomNumber(int numberLength)
     int leftBorder = (int)pow(10, numberLength - 1); // Минимальное число заданной длины.
     int rightBorder = (int)pow(10, numberLength); // Минимальное число большей длины.
 
-    randomNumber = leftBorder + rand() % (rightBorder - leftBorder);
+    int* numberDigits = (int*)calloc(numberLength, sizeof(int)); // Массив с имеющимися разрядами числа.
+    int digitIndex = 0;
+
+    int currentDigit = 0; // Текущий разряд псевдослучайного числа.
+
+    currentDigit = (rand() % 9) + 1; // Добавление старшего ненулевого разряда.
+    numberDigits[0] = currentDigit;
+    randomNumber = currentDigit;
+    digitIndex++;
+
+    for (int i = 1; i < numberLength; ++i) { // Генерация псвдослучайного числа по разрядам.
+        bool isDigitHave = false; // Находится ли эта цифра уже в числе.
+
+        do {
+            isDigitHave = false;
+
+            currentDigit = rand() % 10;
+
+            for (int j = 0; j < digitIndex; j++) // Проверка на наличие такой же цифры.
+                if (currentDigit == numberDigits[j]) {
+                    isDigitHave = true;
+                    break;
+                }
+        } while (isDigitHave);
+
+        numberDigits[digitIndex] = currentDigit;
+        digitIndex++;
+        randomNumber = randomNumber * 10 + currentDigit; // Добавление цифры в конец числа.
+    }
+
+    free(numberDigits);
 
     return randomNumber;
+}
+
+// Проверка input на команду выхода из приложения.
+bool isGameEnded(char* input)
+{
+    return input[0] == 'e';
+}
+
+// Проверка input на комнаду начала новой игры.
+bool isGameStarted(char* input)
+{
+    return input[0] == 's';
 }
 
 // Взаимодействие с пользователем при запуске приложения.
@@ -29,7 +72,7 @@ void printGameMenu(char* input, int inputLength)
     printf("================================\n");
     scanf("%s", input);
 
-    while (!((input[0] == 's' || input[0] == 'e') && strlen(input) == 1)) {
+    while (!(strlen(input) == 1 && (isGameStarted(input) || isGameEnded(input)))) {
         printf("Неверный ввод!\n");
         scanf("%s", input);
     }
@@ -51,7 +94,7 @@ int scanPlayerNumber(int* playerNumber, int numberLength)
     scanf("%d", playerNumber);
 
     while (!isNumberInRange(numberLength, *playerNumber)) {
-        printf("Число должно быть длины %d!\n", numberLength);
+        printf("Число должно быть длины %d и не должно иметь незначащих нулей!\n", numberLength);
         printf("Введите загаданное число: ");
         scanf("%d", playerNumber);
     }
@@ -62,8 +105,16 @@ void startNewGame(int* numberLength, bool* isNewGame, int* secretNumber)
 {
     printf("Введите длину отгадываемого числа: ");
     scanf("%d", numberLength);
+
+    while (*numberLength <= 0) {
+        printf("Длина числа - натуральное число!\n");
+        printf("Введите длину отгадываемого числа: ");
+        scanf("%d", numberLength);
+    }
+
+    printf("Сгенерированное число - длины %d, не имеющее незначащих нулей\n", *numberLength);
+
     *secretNumber = generateRandomNumber(*numberLength);
-    printf("%d", *secretNumber);
     *isNewGame = false;
 }
 
@@ -78,46 +129,6 @@ int* shareNumber(int number, int numberLength)
     }
 
     return sharedNumber;
-}
-
-// Найти количество быков. Последие два аргумента показывают, какие разряды были просмотрены(в этом случае true).
-int findBulls(int* sharedPlayerNumber, int* sharedSecretNumber, int numberLength, bool* isPlayerPositionsChecked, bool* isSecretPositionsChecked)
-{
-    int bulls = 0;
-
-    for (int position = 0; position < numberLength; ++position) {
-        isPlayerPositionsChecked[position] = false;
-        isSecretPositionsChecked[position] = false;
-    }
-
-    for (int position = 0; position < numberLength; ++position)
-        if (sharedPlayerNumber[position] == sharedSecretNumber[position]) {
-            bulls++;
-            isPlayerPositionsChecked[position] = true;
-            isSecretPositionsChecked[position] = true;
-        }
-
-    return bulls;
-}
-
-// Найти количество коров. Последие два аргумента показывают, какие разряды были просмотрены(в этом случае true).
-int findCows(int* sharedPlayerNumber, int* sharedSecretNumber, int numberLength, bool* isPlayerPositionsChecked, bool* isSecretPositionsChecked)
-{
-    int cows = 0;
-
-    for (int playerPosition = 0; playerPosition < numberLength; ++playerPosition)
-        for (int secretPosition = 0; secretPosition < numberLength; ++secretPosition) {
-            if (isPlayerPositionsChecked[playerPosition] || isSecretPositionsChecked[secretPosition])
-                continue;
-
-            if (sharedPlayerNumber[playerPosition] == sharedSecretNumber[secretPosition]) {
-                cows++;
-                isPlayerPositionsChecked[playerPosition] = true;
-                isSecretPositionsChecked[secretPosition] = true;
-            }
-        }
-
-    return cows;
 }
 
 // Вывести результат попытки угадать число.
@@ -136,32 +147,42 @@ void winCheck(int bulls, int numberLength, bool* isNewGame, char* input, int inp
     }
 }
 
-// Проверка input на команду выхода из приложения
-bool isGameEnded(char* input)
-{
-    return input[0] == 'e';
-}
-
 // Найти результат попытки угадать число
 void findResultOfAttempt(int* cows, int* bulls, int playerNumber, int secretNumber, int numberLength)
-{
-    bool* isPlayerPositionChecked = (bool*)calloc(numberLength, sizeof(bool)); // Массивы, показывающие разряды, которые были просмотрены.
-    bool* isSecretPositionChecked = (bool*)calloc(numberLength, sizeof(bool));
+{;
     int* sharedPlayerNumber = shareNumber(playerNumber, numberLength); // Массивы с разрядами чисел.
     int* sharedSecretNumber = shareNumber(secretNumber, numberLength);
 
-    *bulls = findBulls(sharedPlayerNumber, sharedSecretNumber, numberLength, isPlayerPositionChecked, isSecretPositionChecked);
-    *cows = findCows(sharedPlayerNumber, sharedSecretNumber, numberLength, isPlayerPositionChecked, isSecretPositionChecked);
+    *bulls= 0;
+    *cows = 0;
+
+    int* playerDigitsNumber = (int*)calloc(10, sizeof(int)); // Массивы, показывающие количество цифр в числах(элемент n показывает, сколько цифр n встречалась в числе).
+    int* secretDigitsNumber = (int*)calloc(10, sizeof(int));
+
+    for (int i = 0; i < numberLength; ++i) {
+        playerDigitsNumber[sharedPlayerNumber[i]]++; // Инкерментация количества соотвествующих цифр.
+        secretDigitsNumber[sharedSecretNumber[i]]++;
+
+        if (sharedPlayerNumber[i] == sharedSecretNumber[i]) // Подсчёт быков.
+            (*bulls)++;
+    }
+
+    int cowsWithBulls = 0;
+
+    for (int i = 0; i < 10; ++i)
+        cowsWithBulls += min(playerDigitsNumber[i], secretDigitsNumber[i]); // Число коров c быками(минимум из количества соответсвующих цифр)
+
+    *cows = cowsWithBulls - *bulls;
 
     free(sharedSecretNumber);
     free(sharedPlayerNumber);
-    free(isPlayerPositionChecked);
-    free(isSecretPositionChecked);
+    free(playerDigitsNumber);
+    free(secretDigitsNumber);
 }
 
 int main()
 {
-    const int INPUT_LENGTH = 30; // Максимальныая длина считываемой строки
+    const int INPUT_LENGTH = 30; // Максимальныая длина считываемой строки.
 
     char* input = (char*)calloc(INPUT_LENGTH, sizeof(char));
 
