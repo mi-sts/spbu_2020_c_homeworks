@@ -11,7 +11,7 @@ int main()
     while (number < 0) {
         printf("Число должно быть неотрицательным!\n");
         printf("Введите число, факториал которого хотите найти: ");
-        scanf("%lld",   &number);
+        scanf("%lld", &number);
     }
 
     long long numberFactorial = 1;
