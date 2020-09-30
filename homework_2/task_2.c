@@ -110,7 +110,8 @@ int findBulls(int* sharedPlayerNumber, int* sharedSecretNumber, int numberLength
 }
 
 // Найти количество коров. Последие два аргумента показывают, какие разряды были просмотрены(в этом случае true).
-int findCows(int* sharedPlayerNumber, int* sharedSecretNumber, int numberLength, bool* isPlayerPositionsChecked, bool* isSecretPositionsChecked) {
+int findCows(int* sharedPlayerNumber, int* sharedSecretNumber, int numberLength, bool* isPlayerPositionsChecked, bool* isSecretPositionsChecked)
+{
     int cows = 0;
 
     for (int playerPosition = 0; playerPosition < numberLength; ++playerPosition)
