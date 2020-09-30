@@ -20,13 +20,6 @@ int generateRandomNumber(int numberLength)
     return randomNumber;
 }
 
-// Заполнение символьного массива input символами пробела.
-void clearInput(char* input, int inputLength)
-{
-    for (int i = 0; i < inputLength; ++i)
-        input[i] = ' ';
-}
-
 // Взаимодействие с пользователем при запуске приложения.
 void printGameMenu(char* input, int inputLength)
 {
@@ -34,12 +27,10 @@ void printGameMenu(char* input, int inputLength)
     printf("%s", "Игра \"Быки и коровы\"\nВведите \"s\" чтобы начать новую игру\n");
     printf("%s", "(Чтобы закончить игру вы можете ввести \"e\")\n");
     printf("================================\n");
-    clearInput(input, inputLength);
     scanf("%s", input);
 
     while (!((input[0] == 's' || input[0] == 'e') && strlen(input) == 1)) {
         printf("Неверный ввод!\n");
-        clearInput(input, inputLength);
         scanf("%s", input);
     }
 }
@@ -79,14 +70,14 @@ void startNewGame(int* numberLength, bool* isNewGame, int* secretNumber)
 // Разделить число на массив его разрядов.
 int* shareNumber(int number, int numberLength)
 {
-    int* sharedPlayerNumber = (int*)calloc(numberLength, sizeof(int));
+    int* sharedNumber = (int*)calloc(numberLength, sizeof(int));
     for (int i = 0; i < numberLength; ++i) {
         //Получение разрядов числа от старшего к младшему.
         int numberDigit = number % (int)pow(10, numberLength - i) / (int)pow(10, numberLength - i - 1);
-        sharedPlayerNumber[i] = numberDigit;
+        sharedNumber[i] = numberDigit;
     }
 
-    return sharedPlayerNumber;
+    return sharedNumber;
 }
 
 // Найти количество быков. Последие два аргумента показывают, какие разряды были просмотрены(в этом случае true).
@@ -173,7 +164,6 @@ int main()
     const int INPUT_LENGTH = 30; // Максимальныая длина считываемой строки
 
     char* input = (char*)calloc(INPUT_LENGTH, sizeof(char));
-    clearInput(input, INPUT_LENGTH); // Инициализация input.
 
     bool isNewGame = true;
     int numberLength = 0;
