@@ -1,6 +1,6 @@
+#include "../library/commonUtils/numericOperations.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../library/commonUtils/numericOperations.h"
 
 // Функция ввода данных.
 int* getInputArray(int* n)
