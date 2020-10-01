@@ -7,20 +7,23 @@ int getNumberDigit(int number, int digitIndex, int numberLength)
     return number % (int)pow(10, numberLength - digitIndex) / (int)pow(10, numberLength - digitIndex - 1);
 }
 
-int main()
+// Получить число от пользователя.
+void getInputNumber(int* number)
 {
-    int number = 0;
-
     printf("Введите натуральное число: ");
-    scanf("%d", &number);
+    scanf("%d", number);
 
-    while (number <= 0) {
+    while (*number <= 0) {
         printf("Число должно быть натуральным!\n");
         printf("Введите натуральное число: ");
-        scanf("%d", &number);
+        scanf("%d", number);
     }
+}
 
-    int resultNumber = 0;
+// Найти минимальное натуральное число, получающееся перестановкой цифр в числе.
+int findMinimumNaturalNumber(int number)
+{
+    int minimumNaturalNumber = 0;
     int minDigit = 10;
     int minDigitIndex = 0;
     int numberLength = 0;
@@ -33,7 +36,7 @@ int main()
 
     int currentDigit = 0;
 
-    for (int i = 0; i < numberLength; ++i) { // Инициализация старшего ненулевого разряда.
+    for (int i = 0; i < numberLength; ++i) { // Инициализация старшего ненулевого разряда(чтобы не было незначащих нулей).
         currentDigit = getNumberDigit(number, i, numberLength);
 
         if (minDigit > currentDigit && currentDigit != 0) {
@@ -42,7 +45,7 @@ int main()
         }
     }
 
-    resultNumber = minDigit;
+    minimumNaturalNumber = minDigit;
 
     for (int i = 0; i <= 9; ++i) // Перебор всех цифр от меньших к большим.
         for (int j = 0; j < numberLength; ++j) {
@@ -50,10 +53,24 @@ int main()
                 continue;
 
             if (i == getNumberDigit(number, j, numberLength)) // Если j-я по индексу цифра number равна цифре i.
-                resultNumber = resultNumber * 10 + i;
+                minimumNaturalNumber = minimumNaturalNumber * 10 + i;
         }
 
-    printf("Получившееся перестановкой цифр минимальное натуральное число: %d", resultNumber);
+    return minimumNaturalNumber;
+}
+
+void printResult(int minimumNaturalNumber)
+{
+    printf("Получившееся перестановкой цифр минимальное натуральное число: %d", minimumNaturalNumber);
+}
+
+int main()
+{
+    int number = 0;
+
+    getInputNumber(&number);
+    int minimumNaturalNumber = findMinimumNaturalNumber(number);
+    printResult(minimumNaturalNumber);
 
     return 0;
 }
