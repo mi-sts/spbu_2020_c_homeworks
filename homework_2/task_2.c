@@ -1,10 +1,10 @@
+#include "../library/commonUtils/numericOperations.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "../library/commonUtils/numericOperations.h"
 
 // Генерация псевдоослучайного числа заданной длины.
 int generateRandomNumber(int numberLength)
@@ -149,11 +149,11 @@ void winCheck(int bulls, int numberLength, bool* isNewGame, char* input, int inp
 
 // Найти результат попытки угадать число
 void findResultOfAttempt(int* cows, int* bulls, int playerNumber, int secretNumber, int numberLength)
-{;
+{
     int* sharedPlayerNumber = shareNumber(playerNumber, numberLength); // Массивы с разрядами чисел.
     int* sharedSecretNumber = shareNumber(secretNumber, numberLength);
 
-    *bulls= 0;
+    *bulls = 0;
     *cows = 0;
 
     int* playerDigitsNumber = (int*)calloc(10, sizeof(int)); // Массивы, показывающие количество цифр в числах(элемент n показывает, сколько цифр n встречалась в числе).
