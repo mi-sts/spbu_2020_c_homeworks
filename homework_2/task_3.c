@@ -40,7 +40,7 @@ void printArray(int* array, int arrayLength)
 {
     printf("Массив с перемещёнными в конец нулями:\n");
 
-    for (int i = 0; i < arrayLength; i++)
+    for (int i = 0; i < arrayLength; ++i)
         printf("%d ", array[i]);
 }
 
