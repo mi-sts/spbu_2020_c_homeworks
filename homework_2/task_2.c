@@ -139,6 +139,14 @@ bool isWin(int bulls, int numberLength)
     return false;
 }
 
+// Действия в случае выигрыша.
+void winInitialization(char* input, int inputLength, bool* isNewGame)
+{
+    printf("Поздравляем, вы угадали число!!!\n\n\n");
+    printGameMenu(input, inputLength); // В случае выигрыша вызываем игровое меню.
+    *isNewGame = true;
+}
+
 // Найти результат попытки угадать число
 void findResultOfAttempt(int* cows, int* bulls, long playerNumber, long secretNumber, int numberLength)
 {
@@ -197,9 +205,7 @@ int main()
         printResultOfAttemt(cows, bulls); // Вывод резульата.
 
         if (isWin(bulls, numberLength)) { // Проверка выигрыша игрока
-            printf("Поздравляем, вы угадали число!!!\n\n\n");
-            printGameMenu(input, INPUT_LENGTH); // В случае выигрыша вызываем игровое меню.
-            isNewGame = true;
+            winInitialization(input, INPUT_LENGTH, &isNewGame);
         }
     }
 
