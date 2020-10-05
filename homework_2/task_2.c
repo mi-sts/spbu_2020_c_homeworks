@@ -6,40 +6,33 @@
 #include <string.h>
 #include <time.h>
 
-// Генерация псевдоослучайного числа заданной длины.
-int generateRandomNumber(int numberLength)
+// Проверка на налчичие цифры currentDigit в массиве numberDigits.
+bool isDigitHave(int* numberDigits, int currentDigit, int currentNumberLength)
 {
-    int randomNumber = 0;
+    for (int i = 0; i < currentNumberLength; ++i)
+        if (currentDigit == numberDigits[i])
+            return true;
 
+    return false;
+}
+
+// Генерация псевдоослучайного числа заданной длины.
+long generateRandomNumber(int numberLength)
+{
     srand(time(NULL)); // Инициализируем генератор песвдослучайных чисел.
 
-    int leftBorder = (int)pow(10, numberLength - 1); // Минимальное число заданной длины.
-    int rightBorder = (int)pow(10, numberLength); // Минимальное число большей длины.
-
     int* numberDigits = (int*)calloc(numberLength, sizeof(int)); // Массив с имеющимися разрядами числа.
-    int digitIndex = 0;
+    int digitIndex = 1;
 
-    int currentDigit = 0; // Текущий разряд псевдослучайного числа.
-
-    currentDigit = (rand() % 9) + 1; // Добавление старшего ненулевого разряда.
+    int currentDigit = (rand() % 9) + 1; // Добавление старшего ненулевого разряда.
     numberDigits[0] = currentDigit;
-    randomNumber = currentDigit;
-    digitIndex++;
+    long randomNumber = currentDigit;
 
     for (int i = 1; i < numberLength; ++i) { // Генерация псвдослучайного числа по разрядам.
-        bool isDigitHave = false; // Находится ли эта цифра уже в числе.
-
         do {
-            isDigitHave = false;
-
             currentDigit = rand() % 10;
-
-            for (int j = 0; j < digitIndex; j++) // Проверка на наличие такой же цифры.
-                if (currentDigit == numberDigits[j]) {
-                    isDigitHave = true;
-                    break;
-                }
-        } while (isDigitHave);
+        }
+        while (isDigitHave(numberDigits, currentDigit, digitIndex));
 
         numberDigits[digitIndex] = currentDigit;
         digitIndex++;
@@ -51,16 +44,15 @@ int generateRandomNumber(int numberLength)
     return randomNumber;
 }
 
-// Проверка input на команду выхода из приложения.
-bool isGameEnded(char* input)
+// Проверка input на команды старта и окончания игры(0 - старт, 1 - окончание). В случае нахождения несуществующей команды возвращает 3.
+int gameState (char* input)
 {
-    return input[0] == 'e';
-}
+    if (input[0] == 's')
+        return 1;
+    if (input[0] == 'e')
+        return 0;
 
-// Проверка input на комнаду начала новой игры.
-bool isGameStarted(char* input)
-{
-    return input[0] == 's';
+    return 3;
 }
 
 // Взаимодействие с пользователем при запуске приложения.
@@ -72,7 +64,7 @@ void printGameMenu(char* input, int inputLength)
     printf("================================\n");
     scanf("%s", input);
 
-    while (!(strlen(input) == 1 && (isGameStarted(input) || isGameEnded(input)))) {
+    while (!(strlen(input) == 1 && gameState(input) != 3)) {
         printf("Неверный ввод!\n");
         scanf("%s", input);
     }
@@ -88,26 +80,26 @@ bool isNumberInRange(int numberLength, int number)
 }
 
 // Считывание числа, загаданного игроком.
-int scanPlayerNumber(int* playerNumber, int numberLength)
+void scanPlayerNumber(long* playerNumber, int numberLength)
 {
     printf("Введите загаданное число: ");
-    scanf("%d", playerNumber);
+    scanf("%ld", playerNumber);
 
     while (!isNumberInRange(numberLength, *playerNumber)) {
         printf("Число должно быть длины %d и не должно иметь незначащих нулей!\n", numberLength);
         printf("Введите загаданное число: ");
-        scanf("%d", playerNumber);
+        scanf("%ld", playerNumber);
     }
 }
 
 // Взаимодействие с пользователемм при запуске новой игровой сессии.
-void startNewGame(int* numberLength, bool* isNewGame, int* secretNumber)
+void startNewGame(int* numberLength, bool* isNewGame, long* secretNumber)
 {
-    printf("Введите длину отгадываемого числа: ");
+    printf("Введите длину отгадываемого числа(1..10): ");
     scanf("%d", numberLength);
 
-    while (*numberLength <= 0) {
-        printf("Длина числа - натуральное число!\n");
+    while (*numberLength <= 0 || *numberLength > 10) {
+        printf("Длина числа - натуральное число(1..10)!\n");
         printf("Введите длину отгадываемого числа: ");
         scanf("%d", numberLength);
     }
@@ -119,13 +111,14 @@ void startNewGame(int* numberLength, bool* isNewGame, int* secretNumber)
 }
 
 // Разделить число на массив его разрядов.
-int* shareNumber(int number, int numberLength)
+int* shareNumber(long number, int numberLength)
 {
     int* sharedNumber = (int*)calloc(numberLength, sizeof(int));
-    for (int i = 0; i < numberLength; ++i) {
+    for (int i = numberLength - 1; i >= 0; --i) {
         //Получение разрядов числа от старшего к младшему.
-        int numberDigit = number % (int)pow(10, numberLength - i) / (int)pow(10, numberLength - i - 1);
+        int numberDigit = number % 10;
         sharedNumber[i] = numberDigit;
+        number /= 10;
     }
 
     return sharedNumber;
@@ -138,17 +131,16 @@ void printResultOfAttemt(int cows, int bulls)
 }
 
 // Проверка на победу игрока.
-void winCheck(int bulls, int numberLength, bool* isNewGame, char* input, int inputLength)
+bool isWin(int bulls, int numberLength)
 {
-    if (bulls == numberLength) {
-        printf("Поздравляем, вы угадали число!!!\n\n\n");
-        printGameMenu(input, inputLength); // В случае выигрыша вызываем игровое меню.
-        *isNewGame = true;
-    }
+    if (bulls == numberLength)
+        return true;
+
+    return false;
 }
 
 // Найти результат попытки угадать число
-void findResultOfAttempt(int* cows, int* bulls, int playerNumber, int secretNumber, int numberLength)
+void findResultOfAttempt(int* cows, int* bulls, long playerNumber, long secretNumber, int numberLength)
 {
     int* sharedPlayerNumber = shareNumber(playerNumber, numberLength); // Массивы с разрядами чисел.
     int* sharedSecretNumber = shareNumber(secretNumber, numberLength);
@@ -188,14 +180,14 @@ int main()
 
     bool isNewGame = true;
     int numberLength = 0;
-    int playerNumber = 0;
-    int secretNumber = 0;
+    long playerNumber = 0;
+    long secretNumber = 0;
     int bulls = 0;
     int cows = 0;
 
     printGameMenu(input, INPUT_LENGTH); // Вывод меню при запуске приложения.
 
-    while (!isGameEnded(input)) {
+    while (gameState(input)) {
         if (isNewGame) // Инициализация в случае новой игровой сессии.
             startNewGame(&numberLength, &isNewGame, &secretNumber);
 
@@ -204,7 +196,11 @@ int main()
         findResultOfAttempt(&cows, &bulls, playerNumber, secretNumber, numberLength); // Сравнение чисел.
         printResultOfAttemt(cows, bulls); // Вывод резульата.
 
-        winCheck(bulls, numberLength, &isNewGame, input, INPUT_LENGTH); // Проверка выигрыша игрока.
+        if (isWin(bulls, numberLength)) { // Проверка выигрыша игрока
+            printf("Поздравляем, вы угадали число!!!\n\n\n");
+            printGameMenu(input, INPUT_LENGTH); // В случае выигрыша вызываем игровое меню.
+            isNewGame = true;
+        }
     }
 
     free(input);
