@@ -31,8 +31,7 @@ long generateRandomNumber(int numberLength)
     for (int i = 1; i < numberLength; ++i) { // Генерация псвдослучайного числа по разрядам.
         do {
             currentDigit = rand() % 10;
-        }
-        while (isDigitHave(numberDigits, currentDigit, digitIndex));
+        } while (isDigitHave(numberDigits, currentDigit, digitIndex));
 
         numberDigits[digitIndex] = currentDigit;
         digitIndex++;
@@ -45,7 +44,7 @@ long generateRandomNumber(int numberLength)
 }
 
 // Проверка input на команды старта и окончания игры(0 - старт, 1 - окончание). В случае нахождения несуществующей команды возвращает 3.
-int gameState (char* input)
+int gameState(char* input)
 {
     if (input[0] == 's')
         return 1;
