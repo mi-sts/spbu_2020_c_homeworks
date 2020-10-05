@@ -1,75 +1,84 @@
-#include <math.h>
+#include "../library/commonUtils/inputFunctions.h"
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-// Получить цифру по индексу(от 0 до numberLength - 1).
-int getNumberDigit(int number, int digitIndex, int numberLength)
+// Получить длину числа.
+int getNumberLength(long long number)
 {
-    return number % (int)pow(10, numberLength - digitIndex) / (int)pow(10, numberLength - digitIndex - 1);
-}
-
-// Получить число от пользователя.
-void getInputNumber(int* number)
-{
-    printf("Введите натуральное число: ");
-    scanf("%d", number);
-
-    while (*number <= 0) {
-        printf("Число должно быть натуральным!\n");
-        printf("Введите натуральное число: ");
-        scanf("%d", number);
-    }
-}
-
-// Найти минимальное натуральное число, получающееся перестановкой цифр в числе.
-int findMinimumNaturalNumber(int number)
-{
-    int minimumNaturalNumber = 0;
-    int minDigit = 10;
-    int minDigitIndex = 0;
     int numberLength = 0;
 
-    int numberIterator = number;
-    while (numberIterator != 0) { // Нахождение длины числа.
+    long long numberIterator = number;
+    while (numberIterator != 0) {
+
         numberIterator /= 10;
         numberLength++;
     }
 
-    int currentDigit = 0;
+    return numberLength;
+}
 
-    for (int i = 0; i < numberLength; ++i) { // Инициализация старшего ненулевого разряда(чтобы не было незначащих нулей).
-        currentDigit = getNumberDigit(number, i, numberLength);
+// Получить массив цифр числа.
+int* getNumberDigits(long long number, int numberLength)
+{
+    int* numberDigits = (int*)calloc(numberLength, sizeof(int));
 
-        if (minDigit > currentDigit && currentDigit != 0) {
-            minDigit = currentDigit;
-            minDigitIndex = i;
-        }
+    for (int i = numberLength - 1; i >= 0; --i) {
+        numberDigits[i] = number % 10;
+        number /= 10;
     }
 
-    minimumNaturalNumber = minDigit;
+    return numberDigits;
+}
 
-    for (int i = 0; i <= 9; ++i) // Перебор всех цифр от меньших к большим.
+// Подсчёт количества вхождений числа в массив.
+int getNumberCountInArray(int* array, int number, int arrayLength)
+{
+    int count = 0;
+
+    for (int i = 0; i < arrayLength; ++i)
+        if (array[i] == number)
+            count++;
+
+    return count;
+}
+
+// Найти минимальное натуральное число, получающееся перестановкой цифр в числе.
+long long findMinimumNaturalNumber(long long number)
+{
+    int numberLength = getNumberLength(number);
+    int* numberDigits = getNumberDigits(number, numberLength); // Массив цифр числа.
+    int zeroCount = getNumberCountInArray(numberDigits, 0, numberLength); // Количество нулей в числе.
+
+    long long minimumNaturalNumber = 0;
+    bool isZerosAdded = false; // Добавлены ли нули в новое число.
+
+    for (int i = 1; i <= 9; ++i) // Перебор всех цифр от 1 до 9.
         for (int j = 0; j < numberLength; ++j) {
-            if (j == minDigitIndex)
-                continue;
-
-            if (i == getNumberDigit(number, j, numberLength)) // Если j-я по индексу цифра number равна цифре i.
+            if (i == numberDigits[j]) { // Если j-я по индексу цифра number равна цифре i.
                 minimumNaturalNumber = minimumNaturalNumber * 10 + i;
+                if (!isZerosAdded) { // Если после добавления первой ненулевой цифры нули ещё не были добавлены.
+                    isZerosAdded = true;
+                    for (int k = 0; k < zeroCount; k++) // Добавляем нули после первой цифры.
+                        minimumNaturalNumber *= 10;
+                }
+            }
         }
 
+    free(numberDigits);
     return minimumNaturalNumber;
 }
 
-void printResult(int minimumNaturalNumber)
+void printResult(long long minimumNaturalNumber)
 {
-    printf("Получившееся перестановкой цифр минимальное натуральное число: %d", minimumNaturalNumber);
+    printf("Получившееся перестановкой цифр минимальное натуральное число: %lld", minimumNaturalNumber);
 }
 
 int main()
 {
-    int number = 0;
+    long long number = naturalNumberInput("Введите натуральное число: ");
+    long long minimumNaturalNumber = findMinimumNaturalNumber(number);
 
-    getInputNumber(&number);
-    int minimumNaturalNumber = findMinimumNaturalNumber(number);
     printResult(minimumNaturalNumber);
 
     return 0;
