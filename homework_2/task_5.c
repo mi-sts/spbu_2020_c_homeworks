@@ -21,18 +21,18 @@ long long findIterativeFactorial(long long number)
     return numberFactorial;
 }
 
-void getInputNumber(int* number)
+void getInputNumber(long long* number)
 {
-    *number = (int)nonnegativeNumberInput("Введите число, факториал которого хотите найти: ");
+    *number = nonnegativeNumberInput("Введите число, факториал которого хотите найти: ");
 }
 
-void printRecursiveFactorial(int number)
+void printRecursiveFactorial(long long number)
 {
     long long numberFactorial = findRecursiveFactorial(number);
     printf("Факториал %lld, найденный рекурсивно, равен %lld\n", number, numberFactorial);
 }
 
-void printIterativeFactorial(int number)
+void printIterativeFactorial(long long number)
 {
     long long numberFactorial = findIterativeFactorial(number);
     printf("Факториал %lld, найденный итеративно, равен %lld\n", number, numberFactorial);
