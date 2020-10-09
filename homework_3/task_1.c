@@ -12,7 +12,6 @@ int main()
     ListElement* listElement4 = createListElement(4);
     ListElement* listElement5 = createListElement(5);
 
-
     insert(listElement1, 0, list);
     insert(listElement2, 1, list);
     insert(listElement3, 2, list);

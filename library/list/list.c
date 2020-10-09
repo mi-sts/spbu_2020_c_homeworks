@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct ListElement
-{
+struct ListElement {
     int value;
     ListElement* next;
 };
@@ -74,7 +73,7 @@ bool insert(ListElement* value, int position, List* list)
         value->next = list->head;
         list->head = value;
     } else {
-        ListElement *currentElement = list->head;
+        ListElement* currentElement = list->head;
         for (int i = 0; i < position - 1; ++i)
             currentElement = currentElement->next;
 
@@ -90,7 +89,7 @@ bool insert(ListElement* value, int position, List* list)
     return true;
 }
 
-int locate(ListElement* value, List *list)
+int locate(ListElement* value, List* list)
 {
     int locatePosition = 0;
     ListElement* currentElement = list->head;
@@ -131,7 +130,7 @@ bool delete(int position, List* list)
         free(deletedElement);
     } else {
 
-        ListElement *currentElement = list->head;
+        ListElement* currentElement = list->head;
         for (int i = 0; i < position - 1; ++i)
             currentElement = currentElement->next;
 
