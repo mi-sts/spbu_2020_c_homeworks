@@ -151,9 +151,8 @@ void deleteList(List* list)
 {
     int size = listSize(list);
 
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < size; ++i)
         delete(0, list);
-    }
 
     free(list);
 }
