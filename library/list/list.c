@@ -56,7 +56,7 @@ bool listPositionExists(int index, List* list)
     return (index >= 0) && (index < listSize(list));
 }
 
-bool insert(ListElement* value, int position, List* list)
+bool insertElement(ListElement* value, int position, List* list)
 {
     if (!listPositionExists(position, list) && position != listSize(list))
         return false;
@@ -115,12 +115,12 @@ ListElement* retrieve(int position, List* list)
     return currentElement;
 }
 
-bool delete(int position, List* list)
+bool deleteElement(int postion, List* list)
 {
-    if (!listPositionExists(position, list))
+    if (!listPositionExists(postion, list))
         return false;
 
-    if (position == 0) {
+    if (postion == 0) {
         ListElement* deletedElement = list->head;
         list->head = deletedElement->next;
 
@@ -130,13 +130,13 @@ bool delete(int position, List* list)
         free(deletedElement);
     } else {
         ListElement* currentElement = list->head;
-        for (int i = 0; i < position - 1; ++i)
+        for (int i = 0; i < postion - 1; ++i)
             currentElement = currentElement->next;
 
         ListElement* deletedElement = currentElement->next;
         currentElement->next = deletedElement->next;
 
-        if (position + 1 == listSize(list))
+        if (postion + 1 == listSize(list))
             list->tail = currentElement;
 
         free(deletedElement);
@@ -152,7 +152,7 @@ void deleteList(List* list)
     int size = listSize(list);
 
     for (int i = 0; i < size; ++i)
-        delete(0, list);
+        deleteElement(0, list);
 
     free(list);
 }

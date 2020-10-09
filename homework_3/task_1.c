@@ -12,19 +12,20 @@ int main()
     ListElement* listElement4 = createListElement(4);
     ListElement* listElement5 = createListElement(5);
 
-    insert(listElement1, 0, list);
-    insert(listElement2, 1, list);
-    insert(listElement3, 2, list);
-    insert(listElement4, 3, list);
-    insert(listElement5, 4, list);
+    insertElement(listElement1, 0, list);
+    insertElement(listElement2, 1, list);
+    insertElement(listElement3, 2, list);
+    insertElement(listElement4, 3, list);
+    insertElement(listElement5, 4, list);
 
     printf("Вывод списка с добавленными элементами(1, 2, 3, 4, 5):\n");
     printList(list);
 
     printf("Длина списка: %d\n", listSize(list));
 
-    delete(1, list);
-    delete(3, list);
+    deleteElement(1, list);
+    deleteElement(3, list);
+
     printf("Выведем список после последовательного удаления 1 и 3 элемента списка(нумерация с нуля):\n");
     printList(list);
 
@@ -33,7 +34,7 @@ int main()
     ListElement* listElement6 = createListElement(6);
 
     printf("Вставим новый элемент 6 на место 1 позиции и выведем список:\n");
-    insert(listElement6, 1, list);
+    insertElement(listElement6, 1, list);
     printList(list);
 
     deleteList(list);
