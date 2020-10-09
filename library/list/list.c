@@ -129,7 +129,6 @@ bool delete(int position, List* list)
 
         free(deletedElement);
     } else {
-
         ListElement* currentElement = list->head;
         for (int i = 0; i < position - 1; ++i)
             currentElement = currentElement->next;
