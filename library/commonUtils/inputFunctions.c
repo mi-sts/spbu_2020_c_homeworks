@@ -13,4 +13,6 @@ long long nonnegativeNumberInput(char* preInputMessage)
         printf("%s", preInputMessage);
         scanf("%lld", &number);
     }
+
+    return number;
 }
