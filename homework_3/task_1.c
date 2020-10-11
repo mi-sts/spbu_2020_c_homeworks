@@ -3,7 +3,7 @@
 
 int main()
 {
-    printf("Демонстрация работоспособности АТД \"List\":\n");
+    printf("Использование функций структуры \"List\":\n");
 
     List* list = createList();
     ListElement* listElement1 = createListElement(1);
@@ -21,7 +21,7 @@ int main()
     printf("Вывод списка с добавленными элементами(1, 2, 3, 4, 5):\n");
     printList(list);
 
-    printf("Длина списка: %d\n", listSize(list));
+    printf("Длина списка: %d\n", getListSize(list));
 
     deleteElement(1, list);
     deleteElement(3, list);
@@ -29,7 +29,7 @@ int main()
     printf("Выведем список после последовательного удаления 1 и 3 элемента списка(нумерация с нуля):\n");
     printList(list);
 
-    printf("Найдём индекс первого вхождения listElement4(значение равно 4) в list: %d\n", locate(listElement4, list));
+    printf("Найдём индекс первого вхождения listElement4(значение равно 4) в list: %d\n", locateElementPosition(listElement4, list));
 
     ListElement* listElement6 = createListElement(6);
 

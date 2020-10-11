@@ -1,6 +1,6 @@
-#include <stdbool.h>
 #ifndef SPBU_2020_C_HOMEWORKS_LIST_H
 #define SPBU_2020_C_HOMEWORKS_LIST_H
+#include <stdbool.h>
 
 typedef struct List List;
 typedef struct ListElement ListElement;
@@ -9,21 +9,21 @@ List* createList();
 
 ListElement* createListElement();
 
-ListElement* tail(List* list);
+ListElement* getListTail(List* list);
 
-ListElement* head(List* list);
+ListElement* getListHead(List* list);
 
-bool listPositionExists(int index, List* list);
+bool isListPositionExists(int index, List* list);
 
 bool isListEmpty(List* list);
 
-int listSize(List* list);
+int getListSize(List* list);
 
 bool insertElement(ListElement* value, int position, List* list);
 
-int locate(ListElement* value, List* list);
+int locateElementPosition(ListElement* value, List* list);
 
-ListElement* retrieve(int position, List* list);
+ListElement* retrieveElement(int position, List* list);
 
 bool deleteElement(int postion, List* list);
 
