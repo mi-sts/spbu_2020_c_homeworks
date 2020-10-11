@@ -13,4 +13,6 @@ long long naturalNumberInput(char* preInputMessage)
         printf("%s", preInputMessage);
         scanf("%lld", &number);
     }
+
+    return number;
 }

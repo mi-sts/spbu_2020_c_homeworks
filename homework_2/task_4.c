@@ -44,42 +44,42 @@ int getNumberCountInArray(int* array, int number, int arrayLength)
 }
 
 // Найти минимальное натуральное число, получающееся перестановкой цифр в числе.
-long long findMinimumNaturalNumber(long long number)
+long long findMinNaturalNumber(long long number)
 {
     int numberLength = getNumberLength(number);
     int* numberDigits = getNumberDigits(number, numberLength); // Массив цифр числа.
     int zeroCount = getNumberCountInArray(numberDigits, 0, numberLength); // Количество нулей в числе.
 
-    long long minimumNaturalNumber = 0;
+    long long minNaturalNumber = 0;
     bool isZerosAdded = false; // Добавлены ли нули в новое число.
 
     for (int i = 1; i <= 9; ++i) // Перебор всех цифр от 1 до 9.
         for (int j = 0; j < numberLength; ++j) {
             if (i == numberDigits[j]) { // Если j-я по индексу цифра number равна цифре i.
-                minimumNaturalNumber = minimumNaturalNumber * 10 + i;
+                minNaturalNumber = minNaturalNumber * 10 + i;
                 if (!isZerosAdded) { // Если после добавления первой ненулевой цифры нули ещё не были добавлены.
                     isZerosAdded = true;
                     for (int k = 0; k < zeroCount; k++) // Добавляем нули после первой цифры.
-                        minimumNaturalNumber *= 10;
+                        minNaturalNumber *= 10;
                 }
             }
         }
 
     free(numberDigits);
-    return minimumNaturalNumber;
+    return minNaturalNumber;
 }
 
-void printResult(long long minimumNaturalNumber)
+void printResult(long long minNaturalNumber)
 {
-    printf("Получившееся перестановкой цифр минимальное натуральное число: %lld", minimumNaturalNumber);
+    printf("Получившееся перестановкой цифр минимальное натуральное число: %lld", minNaturalNumber);
 }
 
 int main()
 {
     long long number = naturalNumberInput("Введите натуральное число: ");
-    long long minimumNaturalNumber = findMinimumNaturalNumber(number);
+    long long minNaturalNumber = findMinNaturalNumber(number);
 
-    printResult(minimumNaturalNumber);
+    printResult(minNaturalNumber);
 
     return 0;
 }
