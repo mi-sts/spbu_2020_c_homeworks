@@ -44,14 +44,9 @@ long generateRandomNumber(int numberLength)
 }
 
 // Проверка input на команды старта и окончания игры(0 - старт, 1 - окончание). В случае нахождения несуществующей команды возвращает 3.
-int gameState(char* input)
+int isInputEqual(char* input, char symbol)
 {
-    if (input[0] == 's')
-        return 1;
-    if (input[0] == 'e')
-        return 0;
-
-    return 3;
+    return input[0] == symbol;
 }
 
 // Взаимодействие с пользователем при запуске приложения.
@@ -63,7 +58,7 @@ void printGameMenu(char* input, int inputLength)
     printf("================================\n");
     scanf("%s", input);
 
-    while (!(strlen(input) == 1 && gameState(input) != 3)) {
+    while (!(strlen(input) == 1 && (isInputEqual(input, 's') || isInputEqual(input, 'e')))) {
         printf("Неверный ввод!\n");
         scanf("%s", input);
     }
@@ -72,10 +67,10 @@ void printGameMenu(char* input, int inputLength)
 // Проверка числа на длину.
 bool isNumberInRange(int numberLength, int number)
 {
-    int leftNumber = (int)pow(10, numberLength - 1); // Минимальное число заданной длины.
-    int rightNumber = (int)pow(10, numberLength) + 1; // Максимальное число заданной длины.
+    int leftBorder = (int)pow(10, numberLength - 1); // Минимальное число заданной длины.
+    int rightBorder = (int)pow(10, numberLength) + 1; // Максимальное число заданной длины.
 
-    return (number >= leftNumber) && (number <= rightNumber);
+    return (number >= leftBorder) && (number <= rightBorder);
 }
 
 // Считывание числа, загаданного игроком.
@@ -194,7 +189,7 @@ int main()
 
     printGameMenu(input, INPUT_LENGTH); // Вывод меню при запуске приложения.
 
-    while (gameState(input)) {
+    while (isInputEqual(input, 's')) {
         if (isNewGame) // Инициализация в случае новой игровой сессии.
             startNewGame(&numberLength, &isNewGame, &secretNumber);
 
