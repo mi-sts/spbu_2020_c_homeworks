@@ -25,10 +25,14 @@ int locateElementPosition(ListElement* value, List* list);
 
 ListElement* retrieveElement(int position, List* list);
 
-bool deleteElement(int postion, List* list);
+bool deleteElement(int position, List* list);
 
 void deleteList(List* list);
 
 void printList(List* list);
+
+ListElement* getNextElement(ListElement* previousElement, List* list);
+
+int getElementValue(int position, List* list);
 
 #endif

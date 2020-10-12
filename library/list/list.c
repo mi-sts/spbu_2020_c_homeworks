@@ -170,3 +170,25 @@ void printList(List* list)
 
     printf("\n");
 }
+
+ListElement* getNextElement(ListElement* previousElement, List* list)
+{
+    if (previousElement == NULL)
+        return NULL;
+
+    ListElement* nextElement = previousElement->next;
+    if (nextElement == NULL)
+        nextElement = getListHead(list);
+
+    return nextElement;
+}
+
+int getElementValue(int position, List* list)
+{
+    if (!isListPositionExists(position, list))
+        return 0;
+
+    ListElement* element = retrieveElement(position, list);
+
+    return element->value;
+}
