@@ -3,9 +3,9 @@ project(spbu_2020_c_homeworks C)
 
 set(CMAKE_C_STANDARD 11)
 
-set(SOURCE_LIB
-        library/commonUtils/numericOperations.c
-        )
+set(SOURCE_LIB library/commonUtils/numericOperations.c)
+
+set(INPUT_LIB library/commonUtils/inputFunctions.c)
 
 set(INPUT_LIB
         library/commonUtils/inputFunctions.c
@@ -23,5 +23,8 @@ add_executable(task_2.5 homework_2/task_5.c)
 target_link_libraries(task_2.5 input_library)
 
 add_executable(task_2.3 homework_2/task_3.c)
+add_executable(task_2.4 homework_2/task_4.c)
 
+target_link_libraries(task_2.4 m)
+target_link_libraries(task_2.4 input_library)
 target_link_libraries(task_2.3 library)
