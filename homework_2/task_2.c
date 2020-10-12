@@ -17,7 +17,7 @@ bool isDigitHave(int* numberDigits, int currentDigit, int currentNumberLength)
 }
 
 // Генерация псевдоослучайного числа заданной длины.
-long generateRandomNumber(int numberLength)
+int generateRandomNumber(int numberLength)
 {
     srand(time(NULL)); // Инициализируем генератор песвдослучайных чисел.
 
@@ -26,7 +26,7 @@ long generateRandomNumber(int numberLength)
 
     int currentDigit = (rand() % 9) + 1; // Добавление старшего ненулевого разряда.
     numberDigits[0] = currentDigit;
-    long randomNumber = currentDigit;
+    int randomNumber = currentDigit;
 
     for (int i = 1; i < numberLength; ++i) { // Генерация псвдослучайного числа по разрядам.
         do {
@@ -74,20 +74,20 @@ bool isNumberInRange(int numberLength, int number)
 }
 
 // Считывание числа, загаданного игроком.
-void scanPlayerNumber(long* playerNumber, int numberLength)
+void scanPlayerNumber(int* playerNumber, int numberLength)
 {
     printf("Введите загаданное число: ");
-    scanf("%ld", playerNumber);
+    scanf("%d", playerNumber);
 
     while (!isNumberInRange(numberLength, *playerNumber)) {
         printf("Число должно быть длины %d и не должно иметь незначащих нулей!\n", numberLength);
         printf("Введите загаданное число: ");
-        scanf("%ld", playerNumber);
+        scanf("%d", playerNumber);
     }
 }
 
 // Взаимодействие с пользователемм при запуске новой игровой сессии.
-void startNewGame(int* numberLength, bool* isNewGame, long* secretNumber)
+void startNewGame(int* numberLength, bool* isNewGame, int* secretNumber)
 {
     printf("Введите длину отгадываемого числа(1..10): ");
     scanf("%d", numberLength);
@@ -105,7 +105,7 @@ void startNewGame(int* numberLength, bool* isNewGame, long* secretNumber)
 }
 
 // Разделить число на массив его разрядов.
-int* shareNumber(long number, int numberLength)
+int* shareNumber(int number, int numberLength)
 {
     int* sharedNumber = (int*)calloc(numberLength, sizeof(int));
     for (int i = numberLength - 1; i >= 0; --i) {
@@ -127,10 +127,7 @@ void printResultOfAttemt(int cows, int bulls)
 // Проверка на победу игрока.
 bool isWin(int bulls, int numberLength)
 {
-    if (bulls == numberLength)
-        return true;
-
-    return false;
+    return bulls == numberLength;
 }
 
 // Действия в случае выигрыша.
@@ -142,7 +139,7 @@ void winInitialization(char* input, int inputLength, bool* isNewGame)
 }
 
 // Найти результат попытки угадать число
-void findResultOfAttempt(int* cows, int* bulls, long playerNumber, long secretNumber, int numberLength)
+void findResultOfAttempt(int* cows, int* bulls, int playerNumber, int secretNumber, int numberLength)
 {
     int* sharedPlayerNumber = shareNumber(playerNumber, numberLength); // Массивы с разрядами чисел.
     int* sharedSecretNumber = shareNumber(secretNumber, numberLength);
@@ -182,8 +179,8 @@ int main()
 
     bool isNewGame = true;
     int numberLength = 0;
-    long playerNumber = 0;
-    long secretNumber = 0;
+    int playerNumber = 0;
+    int secretNumber = 0;
     int bulls = 0;
     int cows = 0;
 
