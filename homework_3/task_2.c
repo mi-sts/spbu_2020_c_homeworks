@@ -14,8 +14,7 @@ List* createCycle(int cycleSize)
     List* cycle = createList();
 
     ListElement* createdElement = NULL;
-    for (int i = 0; i < cycleSize; ++i)
-    {
+    for (int i = 0; i < cycleSize; ++i) {
         createdElement = createListElement(i + 1); // Создаём элемент со значением начальной позиции(от единицы).
         insertElement(createdElement, i, cycle);
     }
@@ -28,8 +27,7 @@ int findSurvivor(int n, int m, List* cycle)
     ListElement* killedElement = getListHead(cycle);
     int killedElementPosition = 0;
 
-    while (getListSize(cycle) != 1)
-    {
+    while (getListSize(cycle) != 1) {
         for (int i = 0; i < m - 1; ++i) // Получение каждого m-го элемента.
             killedElement = getNextElement(killedElement, cycle);
 
