@@ -7,12 +7,21 @@ set(SOURCE_LIB library/commonUtils/numericOperations.c)
 
 set(INPUT_LIB library/commonUtils/inputFunctions.c)
 
+set(INPUT_LIB
+        library/commonUtils/inputFunctions.c
+        )
+
 add_library(library ${SOURCE_LIB})
 add_library(input_library ${INPUT_LIB})
 
 add_executable(task_1.2 homework_1/task_2.c)
 add_executable(task_1.4 homework_1/task_4.c)
 add_executable(task_2.1 homework_2/task_1.c)
+
+add_executable(task_2.5 homework_2/task_5.c)
+
+target_link_libraries(task_2.5 input_library)
+
 add_executable(task_2.3 homework_2/task_3.c)
 add_executable(task_2.4 homework_2/task_4.c)
 
