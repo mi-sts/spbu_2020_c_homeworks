@@ -9,7 +9,6 @@ set(INPUT_LIB library/commonUtils/inputFunctions.c)
 
 add_library(library ${SOURCE_LIB})
 add_library(list_library ${LIST_LIB})
-add_library(library ${SOURCE_LIB})
 add_library(input_library ${INPUT_LIB})
 
 add_executable(task_1.2 homework_1/task_2.c)
