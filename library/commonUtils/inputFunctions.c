@@ -1,7 +1,6 @@
 #include "inputFunctions.h"
 #include <stdio.h>
 
-
 long long nonnegativeNumberInput(char* preInputMessage)
 {
     long long number = 0;
