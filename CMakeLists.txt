@@ -5,9 +5,11 @@ set(CMAKE_C_STANDARD 11)
 
 set(SOURCE_LIB library/commonUtils/numericOperations.c)
 set(INPUT_LIB library/commonUtils/inputFunctions.c)
+set(COMPLEX_NUMBER_LIB library/complexNumber/complexNumber.c)
 
 add_library(library ${SOURCE_LIB})
 add_library(input_library ${INPUT_LIB})
+add_library(complex_number ${COMPLEX_NUMBER_LIB})
 
 add_executable(task_1.2 homework_1/task_2.c)
 add_executable(task_1.4 homework_1/task_4.c)
