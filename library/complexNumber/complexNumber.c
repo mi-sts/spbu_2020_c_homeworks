@@ -42,15 +42,20 @@ ComplexNumber* addComplex(ComplexNumber* a, ComplexNumber* b) // a + b
 
 ComplexNumber* subtractComplex(ComplexNumber* a, ComplexNumber* b) // a - b
 {
+    int realPartSubtraction = getRealPart(a) - getRealPart(b);
+    int imaginarySubraction = getImaginaryPart(a) - getImaginaryPart(b);
 
+    ComplexNumber* resultComplex = createComplex(realPartSubtraction, imaginarySubraction);
+
+    return resultComplex;
 }
 
-ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b); // a * b
-{
-
-}
-
-ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b); // a / b
+ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b) // a * b
 {
     
+}
+
+ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b) // a / b
+{
+
 }
