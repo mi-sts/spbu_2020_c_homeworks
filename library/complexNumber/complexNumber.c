@@ -1,4 +1,5 @@
 #include "complexNumber.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 struct ComplexNumber {
@@ -68,4 +69,9 @@ ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b) // a / b
     ComplexNumber* resultComplex = createComplex(realPartDivision, imaginaryPartDivision);
 
     return resultComplex;
+}
+
+void printComplexNumber(ComplexNumber* complexNumber)
+{
+    printf("%lf + %lfi", getRealPart(complexNumber), getImaginaryPart(complexNumber));
 }

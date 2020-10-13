@@ -19,4 +19,6 @@ ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b); // a * b
 
 ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b); // a / b
 
+void printComplexNumber(ComplexNumber* complexNumber);
+
 #endif //SPBU_2020_C_HOMEWORKS_COMPLEXNUMBER_H
