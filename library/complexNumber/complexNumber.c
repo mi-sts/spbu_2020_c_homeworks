@@ -62,10 +62,8 @@ ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b) // a * b
 
 ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b) // a / b
 {
-    double realPartDivision = (getRealPart(a) * getRealPart(b) + getImaginaryPart(a) * getImaginaryPart(b)) /
-            (getRealPart(b) * getRealPart(b) + getImaginaryPart(b) * getImaginaryPart(b));
-    double imaginaryPartDivision = (getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b)) /
-            (getRealPart(b) * getRealPart(b) + getImaginaryPart(b) * getImaginaryPart(b));
+    double realPartDivision = (getRealPart(a) * getRealPart(b) + getImaginaryPart(a) * getImaginaryPart(b)) / (getRealPart(b) * getRealPart(b) + getImaginaryPart(b) * getImaginaryPart(b));
+    double imaginaryPartDivision = (getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b)) / (getRealPart(b) * getRealPart(b) + getImaginaryPart(b) * getImaginaryPart(b));
 
     ComplexNumber* resultComplex = createComplex(realPartDivision, imaginaryPartDivision);
 
