@@ -52,7 +52,12 @@ ComplexNumber* subtractComplex(ComplexNumber* a, ComplexNumber* b) // a - b
 
 ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b) // a * b
 {
-    
+    int realPartMultiplication = getRealPart(a) * getRealPart(b) - getImaginaryPart(a) * getImaginaryPart(b);
+    int imaginaryMultiplication = getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b);
+
+    ComplexNumber* resultComplex = createComplex(realPartMultiplication, imaginaryMultiplication);
+
+    return resultComplex;
 }
 
 ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b) // a / b
