@@ -16,6 +16,7 @@ add_executable(task_2.2 homework_2/task_2.c)
 add_executable(task_2.3 homework_2/task_3.c)
 add_executable(task_2.4 homework_2/task_4.c)
 add_executable(task_2.5 homework_2/task_5.c)
+add_executable(test_1.1 test_1/task_1.c)
 
 target_link_libraries(task_2.5 input_library)
 target_link_libraries(task_2.2 m)
