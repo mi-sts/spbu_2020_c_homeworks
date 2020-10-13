@@ -2,11 +2,11 @@
 #include <stdlib.h>
 
 struct ComplexNumber {
-    int realPart;
-    int imaginaryPart;
+    double realPart;
+    double imaginaryPart;
 };
 
-ComplexNumber* createComplex(int realPart, int imaginaryPart)
+ComplexNumber* createComplex(double realPart, double imaginaryPart)
 {
     ComplexNumber* complexNumber = (ComplexNumber*)malloc(sizeof(ComplexNumber));
     complexNumber->realPart = realPart;
@@ -20,20 +20,20 @@ void deleteComplex(ComplexNumber* complexNumber)
     free(complexNumber);
 }
 
-int getRealPart(ComplexNumber* complexNumber)
+double getRealPart(ComplexNumber* complexNumber)
 {
     return complexNumber->realPart;
 }
 
-int getImaginaryPart(ComplexNumber* complexNumber)
+double getImaginaryPart(ComplexNumber* complexNumber)
 {
     return complexNumber->imaginaryPart;
 }
 
 ComplexNumber* addComplex(ComplexNumber* a, ComplexNumber* b) // a + b
 {
-    int realPartSum = getRealPart(a) + getRealPart(b);
-    int imaginarySum = getImaginaryPart(a) + getImaginaryPart(b);
+    double realPartSum = getRealPart(a) + getRealPart(b);
+    double imaginarySum = getImaginaryPart(a) + getImaginaryPart(b);
 
     ComplexNumber* resultComplex = createComplex(realPartSum, imaginarySum);
 
@@ -42,8 +42,8 @@ ComplexNumber* addComplex(ComplexNumber* a, ComplexNumber* b) // a + b
 
 ComplexNumber* subtractComplex(ComplexNumber* a, ComplexNumber* b) // a - b
 {
-    int realPartSubtraction = getRealPart(a) - getRealPart(b);
-    int imaginarySubraction = getImaginaryPart(a) - getImaginaryPart(b);
+    double realPartSubtraction = getRealPart(a) - getRealPart(b);
+    double imaginarySubraction = getImaginaryPart(a) - getImaginaryPart(b);
 
     ComplexNumber* resultComplex = createComplex(realPartSubtraction, imaginarySubraction);
 
@@ -52,8 +52,8 @@ ComplexNumber* subtractComplex(ComplexNumber* a, ComplexNumber* b) // a - b
 
 ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b) // a * b
 {
-    int realPartMultiplication = getRealPart(a) * getRealPart(b) - getImaginaryPart(a) * getImaginaryPart(b);
-    int imaginaryMultiplication = getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b);
+    double realPartMultiplication = getRealPart(a) * getRealPart(b) - getImaginaryPart(a) * getImaginaryPart(b);
+    double imaginaryMultiplication = getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b);
 
     ComplexNumber* resultComplex = createComplex(realPartMultiplication, imaginaryMultiplication);
 
@@ -62,5 +62,10 @@ ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b) // a * b
 
 ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b) // a / b
 {
-    
+    double realPartDivision = (getRealPart(a) * getRealPart(b) + getImaginaryPart(a) * getImaginaryPart(b))
+    double imaginaryDivision = getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b);
+
+    ComplexNumber* resultComplex = createComplex(realPartDivision, imaginaryDivision);
+
+    return resultComplex;
 }

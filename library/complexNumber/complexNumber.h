@@ -3,13 +3,13 @@
 
 typedef struct ComplexNumber ComplexNumber;
 
-ComplexNumber* createComplex(int realPart, int imaginaryPart);
+ComplexNumber* createComplex(double realPart, double imaginaryPart);
 
 void deleteComplex(ComplexNumber* complexNumber);
 
-int getRealPart(ComplexNumber* complexNumber);
+double getRealPart(ComplexNumber* complexNumber);
 
-int getImaginaryPart(ComplexNumber* complexNumber);
+double getImaginaryPart(ComplexNumber* complexNumber);
 
 ComplexNumber* addComplex(ComplexNumber* a, ComplexNumber* b); // a + b
 
