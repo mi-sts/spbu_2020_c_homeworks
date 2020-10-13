@@ -20,7 +20,8 @@ void getNotebooksDifficulty(int* firstNotebooks, int firstCount, int* secondNote
         scanf("%d", &secondNotebooks[i]);
 }
 
-int* combineNotebooks(int* firstNotebooks, int firstCount, int* secondNotebooks, int secondCount, int* totalNotebooks) {
+int* combineNotebooks(int* firstNotebooks, int firstCount, int* secondNotebooks, int secondCount, int* totalNotebooks)
+{
     int curFirstMin = firstNotebooks[0]; // Минимальный встречавшийся элемент в первом массиве на момент обохода.
     int curSecondMin = secondNotebooks[0]; // Минимальный встречавшийся элемент во втором массиве на момент обохода.
     int totalCount = firstCount + secondCount;
@@ -32,8 +33,7 @@ int* combineNotebooks(int* firstNotebooks, int firstCount, int* secondNotebooks,
     int curFirstDifficulty = 0; // Текущие элементы первого и второго массива при обходе соотвественно.
     int curSecondDifficulty = 0;
 
-    while (k != totalCount)
-    {
+    while (k != totalCount) {
         if (curFirstMin >= curSecondMin && i < firstCount || i == 0)
             curFirstDifficulty = firstNotebooks[i];
         if (curSecondMin >= curFirstMin && j < secondCount || j == 0)
