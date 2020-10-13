@@ -62,5 +62,5 @@ ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b) // a * b
 
 ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b) // a / b
 {
-
+    
 }
