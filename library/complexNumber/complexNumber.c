@@ -33,9 +33,9 @@ double getImaginaryPart(ComplexNumber* complexNumber)
 ComplexNumber* addComplex(ComplexNumber* a, ComplexNumber* b) // a + b
 {
     double realPartSum = getRealPart(a) + getRealPart(b);
-    double imaginarySum = getImaginaryPart(a) + getImaginaryPart(b);
+    double imaginaryPartSum = getImaginaryPart(a) + getImaginaryPart(b);
 
-    ComplexNumber* resultComplex = createComplex(realPartSum, imaginarySum);
+    ComplexNumber* resultComplex = createComplex(realPartSum, imaginaryPartSum);
 
     return resultComplex;
 }
@@ -43,9 +43,9 @@ ComplexNumber* addComplex(ComplexNumber* a, ComplexNumber* b) // a + b
 ComplexNumber* subtractComplex(ComplexNumber* a, ComplexNumber* b) // a - b
 {
     double realPartSubtraction = getRealPart(a) - getRealPart(b);
-    double imaginarySubraction = getImaginaryPart(a) - getImaginaryPart(b);
+    double imaginaryPartSubraction = getImaginaryPart(a) - getImaginaryPart(b);
 
-    ComplexNumber* resultComplex = createComplex(realPartSubtraction, imaginarySubraction);
+    ComplexNumber* resultComplex = createComplex(realPartSubtraction, imaginaryPartSubraction);
 
     return resultComplex;
 }
@@ -53,19 +53,21 @@ ComplexNumber* subtractComplex(ComplexNumber* a, ComplexNumber* b) // a - b
 ComplexNumber* multiplyComplex(ComplexNumber* a, ComplexNumber* b) // a * b
 {
     double realPartMultiplication = getRealPart(a) * getRealPart(b) - getImaginaryPart(a) * getImaginaryPart(b);
-    double imaginaryMultiplication = getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b);
+    double imaginaryPartMultiplication = getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b);
 
-    ComplexNumber* resultComplex = createComplex(realPartMultiplication, imaginaryMultiplication);
+    ComplexNumber* resultComplex = createComplex(realPartMultiplication, imaginaryPartMultiplication);
 
     return resultComplex;
 }
 
 ComplexNumber* divideComplex(ComplexNumber* a, ComplexNumber* b) // a / b
 {
-    double realPartDivision = (getRealPart(a) * getRealPart(b) + getImaginaryPart(a) * getImaginaryPart(b))
-    double imaginaryDivision = getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b);
+    double realPartDivision = (getRealPart(a) * getRealPart(b) + getImaginaryPart(a) * getImaginaryPart(b)) /
+            (getRealPart(b) * getRealPart(b) + getImaginaryPart(b) * getImaginaryPart(b));
+    double imaginaryPartDivision = (getImaginaryPart(a) * getRealPart(b) + getRealPart(a) * getImaginaryPart(b)) /
+            (getRealPart(b) * getRealPart(b) + getImaginaryPart(b) * getImaginaryPart(b));
 
-    ComplexNumber* resultComplex = createComplex(realPartDivision, imaginaryDivision);
+    ComplexNumber* resultComplex = createComplex(realPartDivision, imaginaryPartDivision);
 
     return resultComplex;
 }
