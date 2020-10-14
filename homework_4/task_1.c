@@ -87,7 +87,7 @@ double findResult(char* input)
                 j++;
 
             int currentNumberLength = j - i; // Длина получившегося числа.
-            char* currentNumberString = getSubstring(input, i , currentNumberLength); // Получение подстроки, содержащей число.
+            char* currentNumberString = getSubstring(input, i, currentNumberLength); // Получение подстроки, содержащей число.
 
             double currentNumber = strtod(currentNumberString, NULL); // Переводим строку в число.
             free(currentNumberString); // Освобождаем память, выделенную под подстроку.
