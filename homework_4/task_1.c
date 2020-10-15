@@ -79,6 +79,7 @@ double findResult(char* input)
 
             StackElement* pushedElement = createStackElement(resultNumber);
             pushStackElement(numbersStack, pushedElement);
+            deleteStackElement(pushedElement); // Освобождаем память, выделенную под элемент структуры.
 
             i += 2;
         } else { // Если текущий символ - начало числа.
@@ -94,12 +95,16 @@ double findResult(char* input)
 
             StackElement* pushedElement = createStackElement(currentNumber);
             pushStackElement(numbersStack, pushedElement);
+            deleteStackElement(pushedElement); // Освобождаем память, выделенную под элемент структуры.
 
             i = j + 1;
         }
     }
 
     double result = getStackElementValue(popStackElement(numbersStack)); // Извлекаем число из стека, которое и является результатом.
+
+    deleteStack(numbersStack);
+    free(input);
 
     return result;
 }
