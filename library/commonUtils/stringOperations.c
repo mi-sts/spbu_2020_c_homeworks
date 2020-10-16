@@ -64,7 +64,7 @@ char* convertIntegerToString(long long number)
 // Получить двоичную запись unsigned long long в виде строки.
 char* convertUnsignedIntegerToBinaryNotation(unsigned long long number)
 {
-    unsigned long long bitChecker = 1ull;  // Создаём переменную для нахождения двоичного представления числа.
+    unsigned long long bitChecker = 1; // Создаём переменную для нахождения двоичного представления числа.
     bitChecker <<= 63; // Сдвигаем единичный бит в старший разряд.
 
     char* binaryUnsignedInteger = (char*)malloc(64 * sizeof(char));
