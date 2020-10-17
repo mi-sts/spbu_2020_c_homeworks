@@ -65,7 +65,7 @@ char* getExponentialForm(double number)
     int lastOneDigitIndex = findLastOneDigitIndexInBinaryNotation(numberBinary); // Обрезаем строку до последней единицы.
     char* cutNumberBinary = getSubstring(numberBinary, 0, lastOneDigitIndex + 1);
 
-    long long exponentValue = \
+    long long exponentValue =\
     (long long)convertBinaryNotationToDouble(exponentBinary) - (long long)getBinaryDegreeValue(10) + 1; // Получем исходное значение порядка.
     double numberValue = convertBinaryNotationToDouble(cutNumberBinary); // Получем значение мантиссы в десятичном представлении.
 
