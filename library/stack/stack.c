@@ -57,7 +57,7 @@ int sizeOfStack(Stack* stack)
 
 bool isEmpty(Stack* stack)
 {
-    return stack->head == NULL;
+    return sizeOfStack(stack) == 0;
 }
 
 void deleteStackElement(StackElement* deletingElement)

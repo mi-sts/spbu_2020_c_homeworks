@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-const MAX_STRING_LENGHT = 10000;
-
 bool isDigit(char symbol)
 {
     return symbol >= '0' && symbol <= '9' || symbol == '.';
@@ -35,12 +33,25 @@ char* getSubstring(char* string, int startPosition, int length)
     return subString;
 }
 
-void getInput(char* input)
+char* getInput(int maxStringLength)
 {
-    fgets(input, MAX_STRING_LENGHT, stdin); // Ввод строки.
-    int lastIndex = strlen(input) - 1;
-    if (input[lastIndex] == '\n')
-        input[lastIndex] = '\0'; // Удаление символа перевода строки.
+    char* input = (char*)malloc(maxStringLength * sizeof(char));
+    int currentStringLength = 0;
+    char inputChar = (char)getchar(); // Посимвольное считывание.
+
+    while (inputChar != '\n') {
+        if (currentStringLength == maxStringLength) {
+            maxStringLength *= 2;
+            input = (char*)realloc(input, maxStringLength * sizeof(char)); // Перевыделение памяти.
+        }
+
+        input[currentStringLength] = inputChar;
+        currentStringLength++;
+
+        inputChar = (char)getchar();
+    }
+
+    return input;
 }
 
 bool isInputRight(char* input)
@@ -56,6 +67,57 @@ bool isInputRight(char* input)
     return true;
 }
 
+bool handleMathOperationInInput(char* input, int* index, Stack* numbersStack)
+{
+    if (!isMathOperation(input[*index])) // Если текущий символ - не символ операции.
+        return false;
+
+    double secondNumber = getStackElementValue(popStackElement(numbersStack));
+    double firstNumber = getStackElementValue(popStackElement(numbersStack));
+    double resultNumber = 0;
+
+    if (input[*index] == '+')
+        resultNumber = firstNumber + secondNumber;
+    else if (input[*index] == '-')
+        resultNumber = firstNumber - secondNumber;
+    else if (input[*index] == '*')
+        resultNumber = firstNumber * secondNumber;
+    else if (input[*index] == '/')
+        resultNumber = firstNumber / secondNumber;
+
+    StackElement* pushedElement = createStackElement(resultNumber);
+    deleteStackElement(popStackElement(numbersStack)); // Удаление обработанных значений.
+    deleteStackElement(popStackElement(numbersStack));
+    pushStackElement(numbersStack, pushedElement);
+
+    *index += 2;
+
+    return true;
+}
+
+bool handleNumberInInput(char* input, int* index, Stack* numbersStack)
+{
+    if (!isDigit(input[*index])) // Если текущий символ - не цифра.
+        return false;
+
+    int j = *index;
+    while (j < strlen(input) && !isSpace(input[j])) // Поиск индекса первого пробела после искомого числа.
+        j++;
+
+    int currentNumberLength = j - *index; // Длина получившегося числа.
+    char* currentNumberString = getSubstring(input, *index, currentNumberLength); // Получение подстроки, содержащей число.
+
+    double currentNumber = strtod(currentNumberString, NULL); // Переводим строку в число.
+    free(currentNumberString); // Освобождаем память, выделенную под подстроку.
+
+    StackElement* pushedElement = createStackElement(currentNumber);
+    pushStackElement(numbersStack, pushedElement);
+
+    *index = j + 1;
+
+    return true;
+}
+
 double findResult(char* input)
 {
     Stack* numbersStack = createStack(); // Стек с числами.
@@ -63,42 +125,8 @@ double findResult(char* input)
     int i = 0; // Итератор по строке input.
 
     while (i < strlen(input)) { // Пока не просмотрена вся строка.
-        if (isMathOperation(input[i])) { // Если текущий символ - символ операции.
-            double secondNumber = getStackElementValue(popStackElement(numbersStack));
-            double firstNumber = getStackElementValue(popStackElement(numbersStack));
-            double resultNumber = 0;
-
-            if (input[i] == '+')
-                resultNumber = firstNumber + secondNumber;
-            else if (input[i] == '-')
-                resultNumber = firstNumber - secondNumber;
-            else if (input[i] == '*')
-                resultNumber = firstNumber * secondNumber;
-            else if (input[i] == '/')
-                resultNumber = firstNumber / secondNumber;
-
-            StackElement* pushedElement = createStackElement(resultNumber);
-            pushStackElement(numbersStack, pushedElement);
-            deleteStackElement(pushedElement); // Освобождаем память, выделенную под элемент структуры.
-
-            i += 2;
-        } else { // Если текущий символ - начало числа.
-            int j = i;
-            while (j < strlen(input) && !isSpace(input[j])) // Поиск индекса первого пробела после искомого числа.
-                j++;
-
-            int currentNumberLength = j - i; // Длина получившегося числа.
-            char* currentNumberString = getSubstring(input, i, currentNumberLength); // Получение подстроки, содержащей число.
-
-            double currentNumber = strtod(currentNumberString, NULL); // Переводим строку в число.
-            free(currentNumberString); // Освобождаем память, выделенную под подстроку.
-
-            StackElement* pushedElement = createStackElement(currentNumber);
-            pushStackElement(numbersStack, pushedElement);
-            deleteStackElement(pushedElement); // Освобождаем память, выделенную под элемент структуры.
-
-            i = j + 1;
-        }
+         handleMathOperationInInput(input, &i, numbersStack);
+         handleNumberInInput(input, &i, numbersStack);
     }
 
     double result = getStackElementValue(popStackElement(numbersStack)); // Извлекаем число из стека, которое и является результатом.
@@ -131,9 +159,7 @@ int main()
 {
     printUserInformation();
 
-    char* input = (char*)malloc(MAX_STRING_LENGHT * sizeof(char));
-
-    getInput(input);
+    char* input = getInput(2);
 
     if (isInputRight(input)) {
         double result = findResult(input);
