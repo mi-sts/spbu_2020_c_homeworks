@@ -26,12 +26,12 @@ int findLastOneDigitIndexInBinaryNotation(char* binaryNotation)
 }
 
 // Составить экспоненциальную форму записи double.
-char* createExponentialFormString(char numberSign, long long exponentValue, double numberValue, char numberSing)
+char* createExponentialFormString(char numberSign, long long exponentValue, double numberValue, char numberSing, int exponentialFormLength)
 {
     char* numberValueString = convertDoubleToString(numberValue); // Получение строки, содержащей мантиссу.
     char* exponentValueString = convertIntegerToString(exponentValue); // Получение строки, содержащей экспоненту.
 
-    char* exponentialFormString = (char*)malloc(75 * sizeof(char));
+    char* exponentialFormString = (char*)malloc(exponentialFormLength * sizeof(char));
     char signSymbol = numberSing == '0' ? '+' : '-';
 
     sprintf(exponentialFormString, "%c%s%s%s%s", signSymbol, numberValueString, "*2^{", exponentValueString, "}");
@@ -45,8 +45,11 @@ char* createExponentialFormString(char numberSign, long long exponentValue, doub
 // Получить экспоненциальную форму записи double в компьютерном представлении.
 char* getExponentialForm(double number)
 {
+    int formStringLength = strlen("-*2^{}");
+    int numberLength = 17; // Максимальная длина double(с точкой).
+    int exponentialFormLength = formStringLength + numberLength;
     if (number == 0) {
-        char* exponentialForm = (char*)malloc(75 * sizeof(char));
+        char* exponentialForm = (char*)malloc(exponentialFormLength * sizeof(char));
         sprintf(exponentialForm, "%s", "0*2^{0}");
 
         return exponentialForm;
@@ -62,10 +65,11 @@ char* getExponentialForm(double number)
     int lastOneDigitIndex = findLastOneDigitIndexInBinaryNotation(numberBinary); // Обрезаем строку до последней единицы.
     char* cutNumberBinary = getSubstring(numberBinary, 0, lastOneDigitIndex + 1);
 
-    long long exponentValue = (long long)convertBinaryNotationToDouble(exponentBinary) - (long long)getBinaryDegreeValue(10) + 1; // Получем исходное значение порядка.
+    long long exponentValue =
+            (long long)convertBinaryNotationToDouble(exponentBinary) - (long long)getBinaryDegreeValue(10) + 1; // Получем исходное значение порядка.
     double numberValue = convertBinaryNotationToDouble(cutNumberBinary); // Получем значение мантиссы в десятичном представлении.
 
-    char* exponentialForm = createExponentialFormString(numberSign, exponentValue, numberValue, numberSign);
+    char* exponentialForm = createExponentialFormString(numberSign, exponentValue, numberValue, numberSign, exponentialFormLength);
 
     free(doubleBinary);
     free(exponentBinary);
@@ -85,7 +89,6 @@ int main()
     double number = 0;
     printUserInformation();
     getInput(&number);
-    getExponentialForm(number);
     char* exponentialForm = getExponentialForm(number);
     printResult(exponentialForm);
     free(exponentialForm);
