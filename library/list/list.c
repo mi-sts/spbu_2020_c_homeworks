@@ -18,6 +18,7 @@ List* createList()
     List* list = (List*)malloc(sizeof(List));
     list->head = NULL;
     list->tail = NULL;
+    list->size = 0;
 
     return list;
 }
