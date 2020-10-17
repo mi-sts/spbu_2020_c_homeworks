@@ -124,9 +124,9 @@ double findResult(char* input)
 
     int i = 0; // Итератор по строке input.
 
-    while (i < strlen(input)) {
-         handleMathOperationInInput(input, &i, numbersStack);
-         handleNumberInInput(input, &i, numbersStack);
+    while (i < strlen(input)) { // Пока не просмотрена вся строка.
+        handleMathOperationInInput(input, &i, numbersStack);
+        handleNumberInInput(input, &i, numbersStack);
     }
 
     double result = getStackElementValue(popStackElement(numbersStack)); // Извлекаем число из стека, которое и является результатом.
