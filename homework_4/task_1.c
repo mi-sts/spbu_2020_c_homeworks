@@ -67,10 +67,10 @@ bool isInputRight(char* input)
     return true;
 }
 
-bool handleMathOperationInInput(char* input, int* index, Stack* numbersStack)
+void handleMathOperationInInput(char* input, int* index, Stack* numbersStack)
 {
     if (!isMathOperation(input[*index])) // Если текущий символ - не символ операции.
-        return false;
+        return;
 
     double secondNumber = getStackElementValue(popStackElement(numbersStack));
     double firstNumber = getStackElementValue(popStackElement(numbersStack));
@@ -91,14 +91,12 @@ bool handleMathOperationInInput(char* input, int* index, Stack* numbersStack)
     pushStackElement(numbersStack, pushedElement);
 
     *index += 2;
-
-    return true;
 }
 
-bool handleNumberInInput(char* input, int* index, Stack* numbersStack)
+void handleNumberInInput(char* input, int* index, Stack* numbersStack)
 {
     if (!isDigit(input[*index])) // Если текущий символ - не цифра.
-        return false;
+        return;
 
     int j = *index;
     while (j < strlen(input) && !isSpace(input[j])) // Поиск индекса первого пробела после искомого числа.
@@ -114,8 +112,6 @@ bool handleNumberInInput(char* input, int* index, Stack* numbersStack)
     pushStackElement(numbersStack, pushedElement);
 
     *index = j + 1;
-
-    return true;
 }
 
 double findResult(char* input)
