@@ -50,6 +50,7 @@ int main()
     getInputValues(&n, &m);
     List* cycle = createCycle(n);
     k = findSurvivor(n, m, cycle);
+    deleteList(cycle);
     printResult(k);
 
     return 0;
