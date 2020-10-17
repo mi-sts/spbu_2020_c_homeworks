@@ -29,10 +29,10 @@ int findSurvivor(int n, int m, List* cycle)
 
     while (getListSize(cycle) != 1) {
         for (int i = 0; i < m - 1; ++i) // Получение каждого m-го элемента.
-            killedElement = getNextElement(killedElement, cycle);
+            killedElement = getNextCycleElement(killedElement, cycle);
 
         killedElementPosition = locateElementPosition(killedElement, cycle);
-        killedElement = getNextElement(killedElement, cycle);
+        killedElement = getNextCycleElement(killedElement, cycle);
         deleteElement(killedElementPosition, cycle);
     }
 

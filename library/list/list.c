@@ -172,7 +172,7 @@ void printList(List* list)
     printf("\n");
 }
 
-ListElement* getNextElement(ListElement* previousElement, List* list)
+ListElement* getNextCycleElement(ListElement* previousElement, List* list)
 {
     if (previousElement == NULL)
         return NULL;

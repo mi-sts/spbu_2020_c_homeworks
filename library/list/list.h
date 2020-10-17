@@ -31,7 +31,7 @@ void deleteList(List* list);
 
 void printList(List* list);
 
-ListElement* getNextElement(ListElement* previousElement, List* list);
+ListElement* getNextCycleElement(ListElement* previousElement, List* list);
 
 int getElementValue(int position, List* list);
 
