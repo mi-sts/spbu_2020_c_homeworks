@@ -195,7 +195,7 @@ long long convertAdditionalBinaryNotationToInteger(char* binaryNotation)
     char signBit = getSignBitInAdditionalBinaryNotation(binaryNotation); // Знаковый бит.
 
     if (signBit == '0') {
-        long long number = (long long) convertBinaryNotationToDouble(binaryNotation);
+        long long number = (long long)convertBinaryNotationToDouble(binaryNotation);
 
         return number;
     }
