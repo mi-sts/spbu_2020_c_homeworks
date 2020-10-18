@@ -49,15 +49,12 @@ void insertSymbolInString(int position, char symbol, char* string)
 char* convertDoubleToString(double number)
 {
     char* numberString = (char*)malloc(64 * sizeof(char));
-    sprintf(numberString, "%.20g", number);
-
     return numberString;
 }
 
 char* convertIntegerToString(long long number)
 {
     char* numberString = (char*)malloc(20 * sizeof(char));
-    sprintf(numberString, "%lld", number);
     return numberString;
 }
 
@@ -78,7 +75,7 @@ char* convertUnsignedIntegerToBinaryNotation(unsigned long long number)
 }
 
 // Получить двоичную запись double в виде строки.
-char* convertDoubleToBinaryNotation(double number)
+char* convertNonnegativeDoubleToBinaryNotation(double number)
 {
     typedef union udouble { // Создание объединения для получения двоичного представления double в десятичной системе.
         double doubleNumber;
@@ -119,4 +116,118 @@ double convertBinaryNotationToDouble(char* binaryNotation)
     }
 
     return number;
+}
+
+char invertBit(char bit)
+{
+    return bit == '0' ? '1' : '0';
+}
+
+char* getSumOfBinaryNumbers(char* firstNumberBinary, char* secondNumberBinary)
+{
+    int binaryLength = strlen(firstNumberBinary); // Получаем длину числа(они идентичные).
+    char* binarySum = (char*)malloc(binaryLength * sizeof(char));
+
+    int firstNumberDigit = 0; // Текущее значение разрядов чисел.
+    int secondNumberDigit = 0;
+    int portableUnit = 0; // Переносимое число(1 или 0, если ничего не переносим).
+    int digitSum = 0; // Сумма разрядов и переносимого числа.
+    for (int i = binaryLength - 1; i >= 0; --i) {
+        firstNumberDigit = convertBitInInteger(firstNumberBinary[i]);
+        secondNumberDigit = convertBitInInteger(secondNumberBinary[i]);
+
+        digitSum = firstNumberDigit + secondNumberDigit + portableUnit;
+        binarySum[i] = convertIntegerInBit(digitSum % 2); // Рассчитываем текущий бит числа.
+        portableUnit = digitSum >= 2 ? 1 : 0; // Если сумма в разряде больше двух, переносим единицу.
+    }
+
+    return binarySum;
+}
+
+char* getIncrementedAdditionalBinary(char* binaryNotation)
+{
+    char signBit = getSignBitInAdditionalBinaryNotation(binaryNotation);
+    char* summand = convertUnsignedIntegerToBinaryNotation(1);
+    char* incrementedBinary = getSumOfBinaryNumbers(binaryNotation, summand);
+
+    free(summand);
+    return incrementedBinary;
+}
+
+char getSignBitInAdditionalBinaryNotation(char* binaryNotation)
+{
+    return binaryNotation[0];
+}
+
+void invertAdditionalBinary(char* binaryNotation)
+{
+    for (int i = 1; i < strlen(binaryNotation); ++i) // Первый знаковый бит не учитывается.
+        binaryNotation[i] = invertBit(binaryNotation[i]);
+}
+
+char* getConvertedAdditionalInDirectBinaryNotation(char* binaryNotation)
+{
+    invertAdditionalBinary(binaryNotation); // Инверсия всех разрядов.
+    char* directBinary = getIncrementedAdditionalBinary(binaryNotation); // Прибавление единицы.
+    invertAdditionalBinary(binaryNotation);
+
+    return directBinary;
+}
+
+char* convertIntegerInAdditionalBinaryNotation(long long number)
+{
+    if (number >= 0)
+        return convertUnsignedIntegerToBinaryNotation(number);
+    else {
+        number = -number;
+        char* binaryInteger = convertUnsignedIntegerToBinaryNotation(number);
+        binaryInteger[0] = '1'; // Знаковый бит в отрицательном числе.
+        invertAdditionalBinary(binaryInteger); // Получение обратного кода.
+        char* convertedBinary = getIncrementedAdditionalBinary(binaryInteger); // Увеличение числа на единицу.
+
+        free(binaryInteger);
+        return convertedBinary;
+    }
+}
+
+long long convertAdditionalBinaryNotationToInteger(char* binaryNotation)
+{
+    char signBit = getSignBitInAdditionalBinaryNotation(binaryNotation); // Знаковый бит.
+
+    if (signBit == '0') {
+        long long number = (long long) convertBinaryNotationToDouble(binaryNotation);
+
+        return number;
+    }
+
+    char* directConvertedBinary = getConvertedAdditionalInDirectBinaryNotation(binaryNotation); // Получаем прямой код.
+    directConvertedBinary[0] = '0'; // Убираем единицу с старшего разряда(для перевода).
+    long long number = -(long long)convertBinaryNotationToDouble(directConvertedBinary);
+
+    free(directConvertedBinary);
+    return number;
+}
+
+int convertBitInInteger(char bit)
+{
+    return bit == '0' ? 0 : 1;
+}
+
+char convertIntegerInBit(int number)
+{
+    return number == 0 ? '0' : '1';
+}
+
+// Удаление всех незначащих нулей из двоичной записи.
+void removeInsignificantZerosInBinary(char* binary)
+{
+    reflectString(binary); // Отражаем строку для простоты редактирования.
+
+    int i = strlen(binary) - 1;
+    while (binary[i] == '0') {
+        binary[i] = '\0';
+        i--;
+    }
+
+    reflectString(binary);
 }

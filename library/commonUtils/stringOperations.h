@@ -19,8 +19,30 @@ char* convertIntegerToString(long long number);
 
 char* convertUnsignedIntegerToBinaryNotation(unsigned long long number);
 
-char* convertDoubleToBinaryNotation(double number);
+char* convertNonnegativeDoubleToBinaryNotation(double number);
 
 double convertBinaryNotationToDouble(char* binaryNotation);
+
+char invertBit(char bit);
+
+char* getSumOfBinaryNumbers(char* firstNumberBinary, char* secondNumberBinary);
+
+char* getIncrementedAdditionalBinary(char* binaryNotation);
+
+void invertAdditionalBinary(char* binaryNotation);
+
+char* getConvertedAdditionalInDirectBinaryNotation(char* binaryNotation);
+
+char* convertIntegerInAdditionalBinaryNotation(long long number);
+
+char getSignBitInAdditionalBinaryNotation(char* binaryNotation);
+
+long long convertAdditionalBinaryNotationToInteger(char* binaryNotation);
+
+int convertBitInInteger(char bit);
+
+char convertIntegerInBit(int number);
+
+void removeInsignificantZerosInBinary(char* binary);
 
 #endif

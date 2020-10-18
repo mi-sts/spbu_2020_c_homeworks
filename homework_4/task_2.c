@@ -55,7 +55,7 @@ char* getExponentialForm(double number)
         return exponentialForm;
     }
 
-    char* doubleBinary = convertDoubleToBinaryNotation(number); // Получаем двоичную запись number.
+    char* doubleBinary = convertNonnegativeDoubleToBinaryNotation(number); // Получаем двоичную запись number.
 
     char numberSign = doubleBinary[0]; // Знак числа.
     char* exponentBinary = getSubstring(doubleBinary, 1, 11); // Двоичная запись порядка.
