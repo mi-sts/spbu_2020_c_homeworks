@@ -5,9 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+const int binaryNotationBits = 64;
+
 char* getSubstring(char* string, int startPosition, int length)
 {
-    char* subString = (char*)malloc(length * sizeof(char));
+    char* subString = (char*)calloc(length + 1, sizeof(char));
 
     for (int i = 0; i < length; ++i)
         subString[i] = string[i + startPosition];
@@ -46,27 +48,15 @@ void insertSymbolInString(int position, char symbol, char* string)
     string[position] = symbol;
 }
 
-char* convertDoubleToString(double number)
-{
-    char* numberString = (char*)malloc(64 * sizeof(char));
-    return numberString;
-}
-
-char* convertIntegerToString(long long number)
-{
-    char* numberString = (char*)malloc(20 * sizeof(char));
-    return numberString;
-}
-
 // Получить двоичную запись unsigned long long в виде строки.
 char* convertUnsignedIntegerToBinaryNotation(unsigned long long number)
 {
     unsigned long long bitChecker = 1; // Создаём переменную для нахождения двоичного представления числа.
     bitChecker <<= 63; // Сдвигаем единичный бит в старший разряд.
 
-    char* binaryUnsignedInteger = (char*)malloc(64 * sizeof(char));
+    char* binaryUnsignedInteger = (char*)calloc(binaryNotationBits + 1, sizeof(char));
 
-    for (int i = 0; i < 64; ++i) {
+    for (int i = 0; i < binaryNotationBits; ++i) {
         binaryUnsignedInteger[i] = bitChecker & number ? '1' : '0';
         bitChecker >>= 1;
     }
@@ -126,7 +116,7 @@ char invertBit(char bit)
 char* getSumOfBinaryNumbers(char* firstNumberBinary, char* secondNumberBinary)
 {
     int binaryLength = strlen(firstNumberBinary); // Получаем длину числа(они идентичные).
-    char* binarySum = (char*)malloc(binaryLength * sizeof(char));
+    char* binarySum = (char*)calloc(binaryLength + 1, sizeof(char));
 
     int firstNumberDigit = 0; // Текущее значение разрядов чисел.
     int secondNumberDigit = 0;
@@ -178,16 +168,15 @@ char* convertIntegerInAdditionalBinaryNotation(long long number)
 {
     if (number >= 0)
         return convertUnsignedIntegerToBinaryNotation(number);
-    else {
-        number = -number;
-        char* binaryInteger = convertUnsignedIntegerToBinaryNotation(number);
-        binaryInteger[0] = '1'; // Знаковый бит в отрицательном числе.
-        invertAdditionalBinary(binaryInteger); // Получение обратного кода.
-        char* convertedBinary = getIncrementedAdditionalBinary(binaryInteger); // Увеличение числа на единицу.
 
-        free(binaryInteger);
-        return convertedBinary;
-    }
+    number = -number;
+    char* binaryInteger = convertUnsignedIntegerToBinaryNotation(number);
+    binaryInteger[0] = '1'; // Знаковый бит в отрицательном числе.
+    invertAdditionalBinary(binaryInteger); // Получение обратного кода.
+    char* convertedBinary = getIncrementedAdditionalBinary(binaryInteger); // Увеличение числа на единицу.
+
+    free(binaryInteger);
+    return convertedBinary;
 }
 
 long long convertAdditionalBinaryNotationToInteger(char* binaryNotation)
