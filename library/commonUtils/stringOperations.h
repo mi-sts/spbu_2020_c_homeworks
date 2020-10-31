@@ -11,7 +11,7 @@ void reflectString(char* string);
 
 bool isStringPositionExists(int position, char* string);
 
-void insertSymbolInString(int position, char symbol, char* string);
+char* getStringWithInsertedSymbol(int position, char symbol, char* string);
 
 char* convertDoubleToString(double number);
 

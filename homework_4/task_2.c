@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+const int maxDoubleNumberLength = 25;
+
 void printUserInformation()
 {
     printf("Введите число: ");
@@ -31,7 +33,7 @@ char* createExponentialFormString(char numberSign, long long exponentValue, doub
     char* numberValueString = convertDoubleToString(numberValue); // Получение строки, содержащей мантиссу.
     char* exponentValueString = convertIntegerToString(exponentValue); // Получение строки, содержащей экспоненту.
 
-    char* exponentialFormString = (char*)malloc(exponentialFormLength * sizeof(char));
+    char* exponentialFormString = (char*)calloc(exponentialFormLength, sizeof(char));
     char signSymbol = numberSing == '0' ? '+' : '-';
 
     sprintf(exponentialFormString, "%c%s%s%s%s", signSymbol, numberValueString, "*2^{", exponentValueString, "}");
@@ -46,10 +48,9 @@ char* createExponentialFormString(char numberSign, long long exponentValue, doub
 char* getExponentialForm(double number)
 {
     int formStringLength = strlen("-*2^{}");
-    int numberLength = 17; // Максимальная длина double(с точкой).
-    int exponentialFormLength = formStringLength + numberLength;
+    int exponentialFormLength = formStringLength + maxDoubleNumberLength;
     if (number == 0) {
-        char* exponentialForm = (char*)malloc(exponentialFormLength * sizeof(char));
+        char* exponentialForm = (char*)calloc(exponentialFormLength, sizeof(char));
         sprintf(exponentialForm, "%s", "0*2^{0}");
 
         return exponentialForm;
@@ -60,10 +61,12 @@ char* getExponentialForm(double number)
     char numberSign = doubleBinary[0]; // Знак числа.
     char* exponentBinary = getSubstring(doubleBinary, 1, 11); // Двоичная запись порядка.
     char* numberBinary = getSubstring(doubleBinary, 12, 52); // Двоичная запись мантиссы.
-    insertSymbolInString(0, '1', numberBinary); // Добавляем единицу в начало двоичной записи мантиссы(которая подразумевается).
-    insertSymbolInString(1, '.', numberBinary); // Отделяем целую и дробную части.
-    int lastOneDigitIndex = findLastOneDigitIndexInBinaryNotation(numberBinary); // Обрезаем строку до последней единицы.
-    char* cutNumberBinary = getSubstring(numberBinary, 0, lastOneDigitIndex + 1);
+
+    char* numberBinaryWithHideBit = getStringWithInsertedSymbol(0, '1', numberBinary);
+    char* numberBinaryInStandartForm = getStringWithInsertedSymbol(1, '.', numberBinaryWithHideBit);
+
+    int lastOneDigitIndex = findLastOneDigitIndexInBinaryNotation(numberBinaryInStandartForm); // Обрезаем строку до последней единицы.
+    char* cutNumberBinary = getSubstring(numberBinaryInStandartForm, 0, lastOneDigitIndex + 1);
 
     // Получем исходное значение порядка.
     long long exponentValue = (long long)convertBinaryNotationToDouble(exponentBinary) - (long long)getBinaryDegreeValue(10) + 1;
@@ -74,6 +77,8 @@ char* getExponentialForm(double number)
     free(doubleBinary);
     free(exponentBinary);
     free(numberBinary);
+    free(numberBinaryWithHideBit);
+    free(numberBinaryInStandartForm);
     free(cutNumberBinary);
 
     return exponentialForm;

@@ -5,9 +5,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+const int binaryNotationBits = 64;
+const int maxIntegerLength = 20;
+
 char* getSubstring(char* string, int startPosition, int length)
 {
-    char* subString = (char*)malloc(length * sizeof(char));
+    char* subString = (char*)calloc(length + 1, sizeof(char));
 
     for (int i = 0; i < length; ++i)
         subString[i] = string[i + startPosition];
@@ -34,21 +37,27 @@ bool isStringPositionExists(int position, char* string)
     return position >= 0 && position < strlen(string);
 }
 
-void insertSymbolInString(int position, char symbol, char* string)
+char* getStringWithInsertedSymbol(int position, char symbol, char* string)
 {
     if (!isStringPositionExists(position, string))
-        return;
+        return NULL;
 
     int stringLength = strlen(string);
-    for (int i = stringLength; i > position; --i)
-        string[i] = string[i - 1];
+    char* increasedString = (char*)calloc(stringLength + 2, sizeof(char));
 
-    string[position] = symbol;
+    strcpy(increasedString, string);
+
+    for (int i = stringLength; i > position; --i)
+        increasedString[i] = increasedString[i - 1];
+
+    increasedString[position] = symbol;
+
+    return increasedString;
 }
 
 char* convertDoubleToString(double number)
 {
-    char* numberString = (char*)malloc(64 * sizeof(char));
+    char* numberString = (char*)calloc(binaryNotationBits + 1, sizeof(char));
     sprintf(numberString, "%.20g", number);
 
     return numberString;
@@ -56,7 +65,7 @@ char* convertDoubleToString(double number)
 
 char* convertIntegerToString(long long number)
 {
-    char* numberString = (char*)malloc(20 * sizeof(char));
+    char* numberString = (char*)calloc(maxIntegerLength + 1, sizeof(char));
     sprintf(numberString, "%lld", number);
     return numberString;
 }
@@ -67,9 +76,9 @@ char* convertUnsignedIntegerToBinaryNotation(unsigned long long number)
     unsigned long long bitChecker = 1; // Создаём переменную для нахождения двоичного представления числа.
     bitChecker <<= 63; // Сдвигаем единичный бит в старший разряд.
 
-    char* binaryUnsignedInteger = (char*)malloc(64 * sizeof(char));
+    char* binaryUnsignedInteger = (char*)calloc(binaryNotationBits + 1, sizeof(char));
 
-    for (int i = 0; i < 64; ++i) {
+    for (int i = 0; i < binaryNotationBits; ++i) {
         binaryUnsignedInteger[i] = bitChecker & number ? '1' : '0';
         bitChecker >>= 1;
     }
