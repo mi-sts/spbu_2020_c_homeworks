@@ -25,24 +25,28 @@ void printUserInformation()
 
 char* getSubstring(char* string, int startPosition, int length)
 {
-    char* subString = (char*)malloc(length * sizeof(char));
+    char* subString = (char*)malloc((length + 1) * sizeof(char));
 
     for (int i = 0; i < length; ++i)
         subString[i] = string[i + startPosition];
 
+    int endSymbolIndex = length;
+    subString[endSymbolIndex] = '\0';
+
     return subString;
 }
 
-char* getInput(int maxStringLength)
+char* getInput()
 {
-    char* input = (char*)malloc(maxStringLength * sizeof(char));
+    int stringLengthBorder = 2;
+    char* input = (char*)malloc(stringLengthBorder * sizeof(char));
     int currentStringLength = 0;
     char inputChar = (char)getchar(); // Посимвольное считывание.
 
     while (inputChar != '\n') {
-        if (currentStringLength == maxStringLength) {
-            maxStringLength *= 2;
-            input = (char*)realloc(input, maxStringLength * sizeof(char)); // Перевыделение памяти.
+        if (currentStringLength == stringLengthBorder) {
+            stringLengthBorder *= 2;
+            input = (char*)realloc(input, stringLengthBorder * sizeof(char)); // Перевыделение памяти.
         }
 
         input[currentStringLength] = inputChar;
@@ -72,8 +76,12 @@ bool handleMathOperationInInput(char* input, int* index, Stack* numbersStack)
     if (!isMathOperation(input[*index])) // Если текущий символ - не символ операции.
         return false;
 
-    double secondNumber = getStackElementValue(popStackElement(numbersStack));
-    double firstNumber = getStackElementValue(popStackElement(numbersStack));
+    StackElement* firstNumberElement = popStackElement(numbersStack);
+    StackElement* secondNumberElement = popStackElement(numbersStack);
+
+    double secondNumber = getStackElementValue(firstNumberElement);
+    double firstNumber = getStackElementValue(secondNumberElement);
+
     double resultNumber = 0;
 
     if (input[*index] == '+')
@@ -86,11 +94,12 @@ bool handleMathOperationInInput(char* input, int* index, Stack* numbersStack)
         resultNumber = firstNumber / secondNumber;
 
     StackElement* pushedElement = createStackElement(resultNumber);
-    deleteStackElement(popStackElement(numbersStack)); // Удаление обработанных значений.
-    deleteStackElement(popStackElement(numbersStack));
     pushStackElement(numbersStack, pushedElement);
 
     *index += 2;
+
+    deleteStackElement(firstNumberElement);
+    deleteStackElement(secondNumberElement);
 
     return true;
 }
@@ -159,7 +168,7 @@ int main()
 {
     printUserInformation();
 
-    char* input = getInput(2);
+    char* input = getInput();
 
     if (isInputRight(input)) {
         double result = findResult(input);

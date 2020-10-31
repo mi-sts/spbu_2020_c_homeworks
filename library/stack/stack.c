@@ -34,7 +34,7 @@ void pushStackElement(Stack* stack, StackElement* newElement)
 
 StackElement* createStackElement(double value)
 {
-    StackElement* stackElement = malloc(sizeof(struct StackElement));
+    StackElement* stackElement = (StackElement*)malloc(sizeof(struct StackElement));
     stackElement->value = value;
     stackElement->next = NULL;
 
@@ -69,8 +69,8 @@ void deleteStack(Stack* deletingStack)
 {
     StackElement* deletingStackElement = deletingStack->head;
     while (!isEmpty(deletingStack)) {
-        popStackElement(deletingStack);
-        deleteStackElement(deletingStackElement);
+        StackElement* deletedElement = popStackElement(deletingStack);
+        deleteStackElement(deletedElement);
     }
 
     free(deletingStack);
