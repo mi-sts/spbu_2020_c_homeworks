@@ -69,6 +69,7 @@ char* convertIntegerToString(long long number)
     char* numberString = (char*)calloc(maxIntegerLength + 1, sizeof(char));
     sprintf(numberString, "%lld", number);
     return numberString;
+}
 
 // Получить двоичную запись unsigned long long в виде строки.
 char* convertUnsignedIntegerToBinaryNotation(unsigned long long number)
