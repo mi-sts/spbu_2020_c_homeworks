@@ -25,13 +25,10 @@ void printUserInformation()
 
 char* getSubstring(char* string, int startPosition, int length)
 {
-    char* subString = (char*)malloc((length + 1) * sizeof(char));
+    char* subString = (char*)calloc(length + 1, sizeof(char));
 
     for (int i = 0; i < length; ++i)
         subString[i] = string[i + startPosition];
-
-    int endSymbolIndex = length;
-    subString[endSymbolIndex] = '\0';
 
     return subString;
 }
