@@ -7,6 +7,8 @@
 
 const int binaryNotationBits = 64;
 
+const int maxIntegerLength = 20;
+
 char* getSubstring(char* string, int startPosition, int length)
 {
     char* subString = (char*)calloc(length + 1, sizeof(char));
@@ -36,16 +38,37 @@ bool isStringPositionExists(int position, char* string)
     return position >= 0 && position < strlen(string);
 }
 
-void insertSymbolInString(int position, char symbol, char* string)
+char* getStringWithInsertedSymbol(int position, char symbol, char* string)
 {
     if (!isStringPositionExists(position, string))
-        return;
+        return NULL;
 
     int stringLength = strlen(string);
-    for (int i = stringLength; i > position; --i)
-        string[i] = string[i - 1];
+    char* increasedString = (char*)calloc(stringLength + 2, sizeof(char));
 
-    string[position] = symbol;
+    strcpy(increasedString, string);
+
+    for (int i = stringLength; i > position; --i)
+        increasedString[i] = increasedString[i - 1];
+
+    increasedString[position] = symbol;
+
+    return increasedString;
+}
+
+char* convertDoubleToString(double number)
+{
+    char* numberString = (char*)calloc(binaryNotationBits + 1, sizeof(char));
+    sprintf(numberString, "%.20g", number);
+
+    return numberString;
+}
+
+char* convertIntegerToString(long long number)
+{
+    char* numberString = (char*)calloc(maxIntegerLength + 1, sizeof(char));
+    sprintf(numberString, "%lld", number);
+    return numberString;
 }
 
 // Получить двоичную запись unsigned long long в виде строки.
@@ -65,7 +88,7 @@ char* convertUnsignedIntegerToBinaryNotation(unsigned long long number)
 }
 
 // Получить двоичную запись double в виде строки.
-char* convertNonnegativeDoubleToBinaryNotation(double number)
+char* convertDoubleToBinaryNotation(double number)
 {
     typedef union udouble { // Создание объединения для получения двоичного представления double в десятичной системе.
         double doubleNumber;
