@@ -36,14 +36,15 @@ char* getSubstring(char* string, int startPosition, int length)
 char* getInput()
 {
     int stringLengthBorder = 2;
-    char* input = (char*)malloc(stringLengthBorder * sizeof(char));
+    char* input = (char*)calloc(stringLengthBorder + 1, sizeof(char));
     int currentStringLength = 0;
     char inputChar = (char)getchar(); // Посимвольное считывание.
 
     while (inputChar != '\n') {
         if (currentStringLength == stringLengthBorder) {
             stringLengthBorder *= 2;
-            input = (char*)realloc(input, stringLengthBorder * sizeof(char)); // Перевыделение памяти.
+            input = (char*)realloc(input, (stringLengthBorder + 1) * sizeof(char)); // Перевыделение памяти.
+            memset(input + currentStringLength * sizeof(char), '\0', (stringLengthBorder / 2 + 1) * sizeof(char));
         }
 
         input[currentStringLength] = inputChar;
@@ -58,8 +59,9 @@ char* getInput()
 bool isInputRight(char* input)
 {
     char currentSymbol = ' ';
+    int stringLength = strlen(input);
 
-    for (int i = 0; i < strlen(input); ++i) {
+    for (int i = 0; i < stringLength; ++i) {
         currentSymbol = input[i];
         if (!isDigit(currentSymbol) && !isMathOperation(currentSymbol) && !isSpace(currentSymbol))
             return false;
@@ -93,7 +95,10 @@ bool handleMathOperationInInput(char* input, int* index, Stack* numbersStack)
     StackElement* pushedElement = createStackElement(resultNumber);
     pushStackElement(numbersStack, pushedElement);
 
-    *index += 2;
+    if (*index + 2 < strlen(input)) // Если это не последнее действие.
+        *index += 2;
+    else // Если это последнее действие.
+        (*index)++;
 
     deleteStackElement(firstNumberElement);
     deleteStackElement(secondNumberElement);
@@ -107,7 +112,9 @@ bool handleNumberInInput(char* input, int* index, Stack* numbersStack)
         return false;
 
     int j = *index;
-    while (j < strlen(input) && !isSpace(input[j])) // Поиск индекса первого пробела после искомого числа.
+    int stringLength = strlen(input);
+
+    while (j < stringLength && !isSpace(input[j])) // Поиск индекса первого пробела после искомого числа.
         j++;
 
     int currentNumberLength = j - *index; // Длина получившегося числа.
@@ -128,17 +135,20 @@ double findResult(char* input)
 {
     Stack* numbersStack = createStack(); // Стек с числами.
 
+    int stringLength = strlen(input);
     int i = 0; // Итератор по строке input.
 
-    while (i < strlen(input)) { // Пока не просмотрена вся строка.
+    while (i < stringLength) { // Пока не просмотрена вся строка.
         handleMathOperationInInput(input, &i, numbersStack);
         handleNumberInInput(input, &i, numbersStack);
     }
 
-    double result = getStackElementValue(popStackElement(numbersStack)); // Извлекаем число из стека, которое и является результатом.
+    StackElement* resultElement = popStackElement(numbersStack);
+    double result = getStackElementValue(resultElement); // Извлекаем число из стека, которое и является результатом.
 
     deleteStack(numbersStack);
     free(input);
+    free(resultElement);
 
     return result;
 }
