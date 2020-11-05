@@ -6,12 +6,16 @@ set(CMAKE_C_STANDARD 11)
 set(SOURCE_LIB library/commonUtils/numericOperations.c)
 set(LIST_LIB library/list/list.c)
 set(INPUT_LIB library/commonUtils/inputFunctions.c)
+
+set(COMPLEX_NUMBER_LIB library/complexNumber/complexNumber.c)
+
 set(STACK_LIB library/stack/stack.c)
 set(STRING_LIB library/commonUtils/stringOperations.c)
 
 add_library(library ${SOURCE_LIB})
 add_library(list_library ${LIST_LIB})
 add_library(input_library ${INPUT_LIB})
+add_library(complex_number ${COMPLEX_NUMBER_LIB})
 add_library(stack_library ${STACK_LIB})
 add_library(string_library ${STRING_LIB})
 
