@@ -13,8 +13,8 @@ struct BinarySearchTree {
 };
 
 enum Direction { left,
-          right,
-          none };
+        right,
+        none };
 
 BinarySearchTree* createTree()
 {

@@ -109,37 +109,45 @@ int main()
         getCorrectInputSelection(input);
 
         switch (input[0]) {
-            case '1':
-                printPreInputNumberInformation();
-                getCorrectInputNumber(&number);
-                addValue(binarySearchTree, number);
-                break;
-            case '2':
-                printPreInputNumberInformation();
-                getCorrectInputNumber(&number);
-                removeValue(binarySearchTree, number);
-                break;
-            case '3':
-                printPreInputNumberInformation();
-                getCorrectInputNumber(&number);
-                isExist = isExists(binarySearchTree, number);
-                printIsExistElementInformation(isExist);
-                break;
-            case '4':
-                printTreeInAscendingOrder(binarySearchTree);
-                break;
-            case '5':
-                printTreeInDescendingOrder(binarySearchTree);
-                break;
-            case '6':
-                printTreeInDirectOrder(binarySearchTree);
-                break;
-            case '0':
-                isRun = false;
-                break;
-            default:
-                printInputSelectionError();
-                break;
+        case '1': {
+            printPreInputNumberInformation();
+            getCorrectInputNumber(&number);
+            addValue(binarySearchTree, number);
+            break;
+        }
+        case '2': {
+            printPreInputNumberInformation();
+            getCorrectInputNumber(&number);
+            removeValue(binarySearchTree, number);
+            break;
+        }
+        case '3': {
+            printPreInputNumberInformation();
+            getCorrectInputNumber(&number);
+            isExist = isExists(binarySearchTree, number);
+            printIsExistElementInformation(isExist);
+            break;
+        }
+        case '4': {
+            printTreeInAscendingOrder(binarySearchTree);
+            break;
+        }
+        case '5': {
+            printTreeInDescendingOrder(binarySearchTree);
+            break;
+        }
+        case '6': {
+            printTreeInDirectOrder(binarySearchTree);
+            break;
+        }
+        case '0': {
+            isRun = false;
+            break;
+        }
+        default: {
+            printInputSelectionError();
+            break;
+        }
         }
     }
 
