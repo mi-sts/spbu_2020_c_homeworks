@@ -1,17 +1,14 @@
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "binarySearchTree.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-typedef struct BinaryTreeNode
-{
+typedef struct BinaryTreeNode {
     long long value;
     struct BinaryTreeNode* leftChild;
     struct BinaryTreeNode* rightChild;
 } BinaryTreeNode;
 
-struct BinarySearchTree
-{
+struct BinarySearchTree {
     struct BinaryTreeNode* root;
 };
 
@@ -26,7 +23,8 @@ BinarySearchTree* createTree()
     return newTree;
 }
 
-BinaryTreeNode* createNode(long long value) {
+BinaryTreeNode* createNode(long long value)
+{
     BinaryTreeNode* node = (BinaryTreeNode*)malloc(sizeof(BinaryTreeNode));
     node->rightChild = NULL;
     node->leftChild = NULL;
@@ -86,18 +84,16 @@ bool addValueRecursive(BinaryTreeNode* node, long long value)
         if (node->leftChild == NULL) {
             node->leftChild = createNode(value);
             return true;
-        }
-        else {
+        } else {
             return addValueRecursive(node->leftChild, value);
         }
     }
 
     if (value > node->value) {
         if (node->rightChild == NULL) {
-            node->rightChild=createNode(value);
+            node->rightChild = createNode(value);
             return true;
-        }
-        else {
+        } else {
             return addValueRecursive(node->rightChild, value);
         }
     }
@@ -177,7 +173,7 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, long long val
     }
 
     if (node->value > value && node->leftChild != NULL)
-        return removeRecursive(tree, node->leftChild , value, node, left);
+        return removeRecursive(tree, node->leftChild, value, node, left);
 
     if (node->value < value && node->rightChild != NULL)
         return removeRecursive(tree, node->rightChild, value, node, right);
