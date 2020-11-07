@@ -15,9 +15,11 @@ struct BinarySearchTree
     struct BinaryTreeNode* root;
 };
 
-enum Direction { left, right, none };
+enum Direction { left,
+          right,
+          none };
 
-BinarySearchTree *createTree()
+BinarySearchTree* createTree()
 {
     BinarySearchTree* newTree = (BinarySearchTree*)malloc(sizeof(BinarySearchTree));
     newTree->root = NULL;
@@ -67,7 +69,7 @@ bool isEmpty(BinarySearchTree* tree)
     return (tree->root == NULL);
 }
 
-bool isExists(BinarySearchTree *tree, long long value)
+bool isExists(BinarySearchTree* tree, long long value)
 {
     if (isEmpty(tree))
         return false;
@@ -75,7 +77,7 @@ bool isExists(BinarySearchTree *tree, long long value)
     return existsRecursive(tree->root, value);
 }
 
-bool addValueRecursive(BinaryTreeNode *node, long long value)
+bool addValueRecursive(BinaryTreeNode* node, long long value)
 {
     if (node->value == value)
         return false;
@@ -102,7 +104,7 @@ bool addValueRecursive(BinaryTreeNode *node, long long value)
 }
 
 
-bool addValue(BinarySearchTree *tree, long long value)
+bool addValue(BinarySearchTree* tree, long long value)
 {
     if (isEmpty(tree)) {
         tree->root = createNode(value);
@@ -183,7 +185,7 @@ bool removeRecursive(BinarySearchTree* tree, BinaryTreeNode* node, long long val
     return false;
 }
 
-bool removeValue(BinarySearchTree *tree, long long value)
+bool removeValue(BinarySearchTree* tree, long long value)
 {
     if (isEmpty(tree))
         return false;
@@ -191,7 +193,7 @@ bool removeValue(BinarySearchTree *tree, long long value)
     return removeRecursive(tree, tree->root, value, NULL, none);
 }
 
-void printTreeInAscendingOrderRecursive(BinaryTreeNode *node)
+void printTreeInAscendingOrderRecursive(BinaryTreeNode* node)
 {
     if (node == NULL)
         return;
@@ -201,7 +203,7 @@ void printTreeInAscendingOrderRecursive(BinaryTreeNode *node)
     printTreeInAscendingOrderRecursive(node->rightChild);
 }
 
-void printTreeInAscendingOrder(BinarySearchTree *tree)
+void printTreeInAscendingOrder(BinarySearchTree* tree)
 {
     if (tree != NULL)
         printTreeInAscendingOrderRecursive(tree->root);
@@ -235,7 +237,7 @@ void printTreeInDirectOrderRecursive(BinaryTreeNode* node)
     printTreeInDirectOrderRecursive(node->rightChild);
 }
 
-void printTreeInDirectOrder(BinarySearchTree *tree)
+void printTreeInDirectOrder(BinarySearchTree* tree)
 {
     if (tree != NULL)
         printTreeInDirectOrderRecursive(tree->root);
