@@ -22,4 +22,3 @@ void printTreeInDescendingOrder(BinarySearchTree* tree);
 void printTreeInDirectOrder(BinarySearchTree* tree);
 
 #endif //SPBU_2020_C_HOMEWORKS_BST_H
-
