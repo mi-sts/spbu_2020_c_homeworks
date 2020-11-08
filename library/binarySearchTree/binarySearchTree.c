@@ -13,8 +13,8 @@ struct BinarySearchTree {
 };
 
 enum Direction { left,
-        right,
-        none };
+    right,
+    none };
 
 BinarySearchTree* createTree()
 {
@@ -98,7 +98,6 @@ bool addValueRecursive(BinaryTreeNode* node, long long value)
         }
     }
 }
-
 
 bool addValue(BinarySearchTree* tree, long long value)
 {
@@ -239,4 +238,3 @@ void printTreeInDirectOrder(BinarySearchTree* tree)
         printTreeInDirectOrderRecursive(tree->root);
     printf("\n");
 }
-
