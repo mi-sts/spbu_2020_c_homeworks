@@ -4,7 +4,7 @@
 
 void printUserInterface()
 {
-    printf("Доступны следующие операции для BST:\n");
+    printf("Доступны следующие операции для AVL:\n");
     printf("1 - Добавить значение целого типа в множество.\n");
     printf("2 - Удалить значение целого типа.\n");
     printf("3 - Проверить значение целого типа на принадлженость множетсву.\n");
@@ -95,7 +95,7 @@ void printIsExistElementInformation(bool isExist)
 
 int main()
 {
-    BinarySearchTree* binarySearchTree = createTree();
+    BinarySearchTree* binarySearchAVLTree = createTree();
     bool isRun = true;
     bool isExist = false;
 
@@ -112,32 +112,32 @@ int main()
         case '1': {
             printPreInputNumberInformation();
             getCorrectInputNumber(&number);
-            addValue(binarySearchTree, number);
+            addValueInAVL(binarySearchAVLTree, number);
             break;
         }
         case '2': {
             printPreInputNumberInformation();
             getCorrectInputNumber(&number);
-            removeValue(binarySearchTree, number);
+            removeValueFromAVL(binarySearchAVLTree, number);
             break;
         }
         case '3': {
             printPreInputNumberInformation();
             getCorrectInputNumber(&number);
-            isExist = isExists(binarySearchTree, number);
+            isExist = isExists(binarySearchAVLTree, number);
             printIsExistElementInformation(isExist);
             break;
         }
         case '4': {
-            printTreeInAscendingOrder(binarySearchTree);
+            printTreeInAscendingOrder(binarySearchAVLTree);
             break;
         }
         case '5': {
-            printTreeInDescendingOrder(binarySearchTree);
+            printTreeInDescendingOrder(binarySearchAVLTree);
             break;
         }
         case '6': {
-            printTreeInDirectOrder(binarySearchTree);
+            printTreeInDirectOrder(binarySearchAVLTree);
             break;
         }
         case '0': {
@@ -151,7 +151,7 @@ int main()
         }
     }
 
-    removeTree(binarySearchTree);
+    removeTree(binarySearchAVLTree);
     free(input);
 
     return 0;
