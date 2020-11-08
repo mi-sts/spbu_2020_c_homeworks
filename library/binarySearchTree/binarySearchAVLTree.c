@@ -1,5 +1,5 @@
-#include "../commonUtils/numericOperations.h"
 #include "binarySearchAVLTree.h"
+#include "../commonUtils/numericOperations.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -68,15 +68,13 @@ BinaryTreeNode* rotateLeft(BinaryTreeNode* root)
 
 BinaryTreeNode* balanceNode(BinaryTreeNode* root)
 {
-    if (getNodeBalanceFactor(root) == 2)
-    {
+    if (getNodeBalanceFactor(root) == 2) {
         if (getNodeBalanceFactor(root->rightChild) < 0)
             root->rightChild = rotateRight(root->rightChild);
         return rotateLeft(root);
     }
 
-    if (getNodeBalanceFactor(root) == -2)
-    {
+    if (getNodeBalanceFactor(root) == -2) {
         if (getNodeBalanceFactor(root->leftChild) > 0)
             root->leftChild = rotateLeft(root->leftChild);
         return rotateRight(root);
@@ -285,7 +283,7 @@ bool removeValueFromAVL(BinarySearchTree* tree, long long value)
     if (isEmpty(tree))
         return false;
 
-    bool isRemoved  = removeValue(tree, value);
+    bool isRemoved = removeValue(tree, value);
     tree->root = getBalancedTree(tree);
 
     return isRemoved;
