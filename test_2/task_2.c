@@ -25,8 +25,9 @@ bool isDate(char* text)
             if (!isPoint(text[i]))
                 return false;
         }
-        else if (!isDigit(text[i]))
+        else if (!isDigit(text[i])) {
             return false;
+        }
     }
 
     return true;
