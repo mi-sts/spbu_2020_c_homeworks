@@ -27,9 +27,9 @@ bool isDate(char* text)
         }
         else if (!isDigit(text[i]))
             return false;
+    }
 
     return true;
-    }
 }
 
 long long getDays(char* date)
@@ -54,7 +54,7 @@ long long getYears(char* date)
 {
     char* yearsPart = calloc(5, sizeof(char));
     memcpy(yearsPart, date + (6 * sizeof(char)), 4 * sizeof(char));
-    long long years = at_quick_exit(yearsPart);
+    long long years = atof(yearsPart);
 
     free(yearsPart);
     return years;
