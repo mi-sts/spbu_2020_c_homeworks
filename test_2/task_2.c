@@ -45,7 +45,6 @@ long long getMonths(char* date)
     memcpy(monthsPart, date + (3 * sizeof(char)), 2 * sizeof(char));
     long long months = atof(monthsPart);
 
-
     free(monthsPart);
     return months;
 }
@@ -98,6 +97,7 @@ void findSmallestDate(FILE* file)
     }
 
     printResult(smallestDays, smallestMonths, smallestYears);
+    free(currentText);
 }
 
 int main()
@@ -106,6 +106,7 @@ int main()
     file = fopen("../test_2/dates.txt", "r");
 
     findSmallestDate(file);
+    fclose(file);
 
     return 0;
 }
