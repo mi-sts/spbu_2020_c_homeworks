@@ -62,7 +62,7 @@ long long getYears(char* date)
 
 void printResult(long long days, long long months, long long years)
 {
-    printf("Наименьшая дата: %lld.%lld.&lld", days, months, years);
+    printf("Наименьшая дата: %lld.%lld.%lld", days, months, years);
 }
 
 void findSmallestDate(FILE* file)
@@ -103,7 +103,7 @@ void findSmallestDate(FILE* file)
 int main()
 {
     FILE* file;
-    file = fopen("date.txt", "r");
+    file = fopen("../test_2/dates.txt", "r");
 
     findSmallestDate(file);
 
