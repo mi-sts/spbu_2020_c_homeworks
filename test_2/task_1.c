@@ -58,6 +58,6 @@ int main()
         printInputError();
 
     free(previousNumbers);
-    
+
     return 0;
 }
