@@ -8,9 +8,7 @@ void printUserInterface()
     printf("1 - Добавить значение целого типа в множество.\n");
     printf("2 - Удалить значение целого типа.\n");
     printf("3 - Проверить значение целого типа на принадлженость множетсву.\n");
-    printf("4 - Вывести текущие элементы множества в возрастающем порядке.\n");
-    printf("5 - Вывести текущие элементы множества в убывающем порядке.\n");
-    printf("6 - Вывести текущие элементы множества в прямом порядке.\n");
+    printf("4 - Вывести текущие элементы множества в возрастающем, убывающем и прямом порядках.\n");
     printf("0 - Завершить работу\n");
 }
 
@@ -130,13 +128,7 @@ int main()
         }
         case '4': {
             printTreeInAscendingOrder(binarySearchAVLTree);
-            break;
-        }
-        case '5': {
             printTreeInDescendingOrder(binarySearchAVLTree);
-            break;
-        }
-        case '6': {
             printTreeInDirectOrder(binarySearchAVLTree);
             break;
         }

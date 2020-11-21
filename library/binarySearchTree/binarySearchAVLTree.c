@@ -337,19 +337,27 @@ void printTreeInDescendingOrder(BinarySearchTree* tree)
     printf("\n");
 }
 
-void printTreeInDirectOrderRecursive(BinaryTreeNode* node)
+void printTreeInDirectOrderRecursive(BinaryTreeNode* node, enum Direction direction)
 {
-    if (node == NULL)
+    if (node == NULL) {
+        printf("null");
+        if (direction != right)
+            printf(" ");
         return;
+    }
 
+    printf("(");
     printf("%lld ", node->value);
-    printTreeInDirectOrderRecursive(node->leftChild);
-    printTreeInDirectOrderRecursive(node->rightChild);
+    printTreeInDirectOrderRecursive(node->leftChild, left);
+    printTreeInDirectOrderRecursive(node->rightChild, right);
+    printf(")");
+    if (direction != right)
+        printf(" ");
 }
 
 void printTreeInDirectOrder(BinarySearchTree* tree)
 {
     if (tree != NULL)
-        printTreeInDirectOrderRecursive(tree->root);
+        printTreeInDirectOrderRecursive(tree->root, none);
     printf("\n");
 }
