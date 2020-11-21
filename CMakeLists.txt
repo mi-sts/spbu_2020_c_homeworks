@@ -11,6 +11,7 @@ set(COMPLEX_NUMBER_LIB library/complexNumber/complexNumber.c)
 
 set(STACK_LIB library/stack/stack.c)
 set(STRING_LIB library/commonUtils/stringOperations.c)
+set(BST_LIB library/binarySearchTree/binarySearchTree.c)
 
 add_library(library ${SOURCE_LIB})
 add_library(list_library ${LIST_LIB})
@@ -18,6 +19,7 @@ add_library(input_library ${INPUT_LIB})
 add_library(complex_number ${COMPLEX_NUMBER_LIB})
 add_library(stack_library ${STACK_LIB})
 add_library(string_library ${STRING_LIB})
+add_library(bst_library ${BST_LIB})
 
 add_executable(task_1.2 homework_1/task_2.c)
 add_executable(task_1.4 homework_1/task_4.c)
@@ -33,6 +35,7 @@ add_executable(task_3.2 homework_3/task_2.c)
 add_executable(task_4.1 homework_4/task_1.c)
 add_executable(task_4.2 homework_4/task_2.c)
 add_executable(task_4.3 homework_4/task_3.c)
+add_executable(task_5.1 homework_5/task_1.c)
 
 add_executable(test_1.1 test_1/task_1.c)
 
@@ -50,3 +53,4 @@ target_link_libraries(task_4.2 library)
 target_link_libraries(task_4.3 library)
 target_link_libraries(task_4.3 string_library)
 target_link_libraries(string_library library)
+target_link_libraries(task_5.1 bst_library)
