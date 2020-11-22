@@ -11,11 +11,7 @@ void removeTree(BinarySearchTree* tree);
 
 bool isExists(BinarySearchTree* tree, long long value);
 
-bool addValue(BinarySearchTree* tree, long long value);
-
 bool addValueInAVL(BinarySearchTree* tree, long long value);
-
-bool removeValue(BinarySearchTree* tree, long long value);
 
 bool removeValueFromAVL(BinarySearchTree* tree, long long value);
 
