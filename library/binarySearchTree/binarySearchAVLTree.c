@@ -1,5 +1,5 @@
-#include "../commonUtils/numericOperations.h"
 #include "binarySearchAVLTree.h"
+#include "../commonUtils/numericOperations.h"
 #include <stdio.h>
 #include <stdlib.h>
 
