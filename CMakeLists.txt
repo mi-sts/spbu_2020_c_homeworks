@@ -8,7 +8,7 @@ set(LIST_LIB library/list/list.c)
 set(INPUT_LIB library/commonUtils/inputFunctions.c)
 set(STRING_LIB library/commonUtils/stringOperations.c)
 set(BST_LIB library/binarySearchTree/binarySearchTree.c)
-set(BST_AVL_LIB library/binarySearchTree/binarySearchAVLTree.c)
+set(BST_AVL_LIB library/binarySearchTree/AVLTree.c)
 
 add_library(library ${SOURCE_LIB})
 add_library(list_library ${LIST_LIB})

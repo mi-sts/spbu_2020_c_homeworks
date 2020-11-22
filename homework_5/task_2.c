@@ -1,4 +1,4 @@
-#include "../library/binarySearchTree/binarySearchAVLTree.h"
+#include "../library/binarySearchTree/AVLTree.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -93,7 +93,7 @@ void printIsExistElementInformation(bool isExist)
 
 int main()
 {
-    BinarySearchTree* binarySearchAVLTree = createTree();
+    AVLTree* binarySearchAVLTree = createTree();
     bool isRun = true;
     bool isExist = false;
 
