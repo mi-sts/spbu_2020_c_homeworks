@@ -38,7 +38,7 @@ Edge** getWorksConnectionsEdges(int studentsNumber, int* maxStudentNumber)
     return worksConnectionsEdges;
 }
 
-int findStudentVariant(int currentStudent, Graph* worksConnectionsGraph,  int maxStudentNumber)
+int findStudentVariant(int currentStudent, Graph* worksConnectionsGraph, int maxStudentNumber)
 {
     int* vertexState = (int*)calloc(maxStudentNumber + 1, sizeof(int));
 

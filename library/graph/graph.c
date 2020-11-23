@@ -16,7 +16,8 @@ struct Graph {
     int countEdges;
 };
 
-Edge* createEdge(int start, int end, int weight, bool oriented) {
+Edge* createEdge(int start, int end, int weight, bool oriented)
+{
     Edge* edge = malloc(sizeof(Edge));
     edge->start = start;
     edge->end = end;
@@ -26,7 +27,8 @@ Edge* createEdge(int start, int end, int weight, bool oriented) {
     return edge;
 }
 
-Graph* createGraph(int countEdges, int countVertex, Edge** edges) {
+Graph* createGraph(int countEdges, int countVertex, Edge** edges)
+{
     Graph* graph = (Graph*)malloc(sizeof(Graph));
     graph->countVertex = countVertex;
     graph->countEdges = countEdges;
@@ -59,7 +61,7 @@ void destroyGraph(Graph* graph)
 bool isConnected(int fromVertex, int toVertex, Graph* graph)
 {
     int* vertexState = (int*)malloc(graph->countVertex * sizeof(int));
-    memset(vertexState,0,graph->countVertex * sizeof(int));
+    memset(vertexState, 0, graph->countVertex * sizeof(int));
 
     depthFirstSearch(graph, fromVertex, vertexState);
 
@@ -71,8 +73,7 @@ bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState)
     vertexState[currentVertex] = 1;
 
     for (int i = 0; i < graph->countVertex; i++) {
-        if (graph->matrix[currentVertex][i] != 0)
-        {
+        if (graph->matrix[currentVertex][i] != 0) {
             if (vertexState[i] == 1)
                 return true;
 
@@ -90,7 +91,7 @@ bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState)
 bool isCycled(Graph* graph)
 {
     int* vertexState = (int*)malloc(graph->countVertex * sizeof(int));
-    memset(vertexState,0,graph->countVertex * sizeof(int));
+    memset(vertexState, 0, graph->countVertex * sizeof(int));
 
     for (int i = 0; i < graph->countVertex; ++i) {
         if (vertexState[i] == 0)
