@@ -40,6 +40,7 @@ void destroyMatrix(Matrix* matrix)
             if (matrix->matrixArray != NULL)
                 free(matrix->matrixArray[i]);
         }
+
         free(matrix->matrixArray);
 
     free(matrix);
@@ -64,7 +65,6 @@ Matrix* addMatrix(Matrix* firstMatrix, Matrix* secondMatrix)
             matrixArray[i][j] = firstMatrix->matrixArray[i][j] + secondMatrix->matrixArray[i][j];
     }
 
-
     Matrix* resultMatrix = createMatrix(firstHeight, firstWidth, matrixArray);
 
     return resultMatrix;
@@ -88,8 +88,7 @@ Matrix* subtractMatrix(Matrix* firstMatrix, Matrix* secondMatrix)
         for (int j = 0; j < firstWidth; ++j)
             matrixArray[i][j] = firstMatrix->matrixArray[i][j] - secondMatrix->matrixArray[i][j];
     }
-
-
+    
     Matrix* resultMatrix = createMatrix(firstHeight, firstWidth, matrixArray);
 
     return resultMatrix;
