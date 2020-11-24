@@ -6,7 +6,8 @@ Matrix* getInputMatrix()
 {
     printf("Введите высоту и ширину матрицы и введите элементы матрицы через пробел(новая строка матрицы на новой строке):\n");
 
-    int width = 0; int height = 0;
+    int width = 0;
+    int height = 0;
     scanf("%d %d", &height, &width);
 
     float** matrixArray = (float**)calloc(height, sizeof(float*));
@@ -26,6 +27,8 @@ int main()
 {
     Matrix* firstMatrix = getInputMatrix();
     Matrix* secondMatrix = getInputMatrix();
+
+    printf("В случае, если для текущих матриц конкертная операция невозможна, её результата не будет видно.\n");
 
     printf("Первая матрица:\n");
     printMatrix(firstMatrix);
