@@ -13,17 +13,25 @@ int getStudentsNumber()
     return studentsNumber;
 }
 
-// Возвращает рёбра, связывающие номера двух студентов(или номер студента и -1, если он не сдал работу).
-Edge** getWorksConnectionsEdges(int studentsNumber, int* maxStudentNumber)
+// Возвращает рёбра, связывающие номера двух студентов(и помещает в массив studentsWithoutWork номера студетнов, не сдавших работу).
+Edge** getWorksConnectionsEdges(int studentsNumber, int* maxStudentNumber, int** studentsWithoutWork, int* studentsWithoutWorkNumber, int* studentsWithWorkNumber)
 {
     *maxStudentNumber = 0;
     bool isMaxStudentNumberInitialized = false;
-    Edge** worksConnectionsEdges = (Edge**)malloc(studentsNumber * sizeof(Edge*));
 
     printf("Для каждого студента введите два числа через пробел: номер самого студента и номер того, у кого он списал.\n");
     printf("Если же студент не сдал работу, вторым числом введите -1.\n");
 
     int firstStudentNumber = 0, secondStudentNumber = 0;
+
+    int studentsWithoutWorkIndex = 0;
+    int studentsWithoutWorkBorder = 1;
+    *studentsWithoutWork = (int*)calloc(1, sizeof(int));
+
+    int studentsWithWorkIndex = 0;
+    int studentsWithWorkBorder = 1;
+    Edge** worksConnectionsEdges = (Edge**)malloc(1 * sizeof(Edge*));
+
     for (int i = 0; i < studentsNumber; ++i) {
         scanf("%d %d", &firstStudentNumber, &secondStudentNumber);
 
@@ -32,8 +40,28 @@ Edge** getWorksConnectionsEdges(int studentsNumber, int* maxStudentNumber)
             isMaxStudentNumberInitialized = true;
         }
 
-        worksConnectionsEdges[i] = createEdge(firstStudentNumber, secondStudentNumber, 1, true);
+        if (secondStudentNumber == -1) {
+            if (studentsWithoutWorkBorder == studentsWithoutWorkIndex) {
+                studentsWithoutWorkBorder *= 2;
+                *studentsWithoutWork = (int*)realloc(*studentsWithoutWork, studentsWithoutWorkBorder * sizeof(int));
+            }
+
+            (*studentsWithoutWork)[studentsWithoutWorkIndex] = firstStudentNumber;
+            studentsWithoutWorkIndex++;
+            continue;
+        }
+
+        if (studentsWithWorkIndex == studentsWithWorkBorder) {
+            studentsWithWorkBorder *= 2;
+            worksConnectionsEdges = (Edge**)realloc(worksConnectionsEdges, studentsWithWorkBorder * sizeof(Edge*));
+        }
+
+        worksConnectionsEdges[studentsWithWorkIndex] = createEdge(firstStudentNumber, secondStudentNumber, 1, true);
+        studentsWithWorkIndex++;
     }
+
+    *studentsWithoutWorkNumber = studentsWithoutWorkIndex;
+    *studentsWithWorkNumber = studentsWithWorkIndex;
 
     return worksConnectionsEdges;
 }
@@ -44,23 +72,15 @@ int findStudentVariant(int currentStudent, Graph* worksConnectionsGraph, int max
 
     depthFirstSearch(worksConnectionsGraph, currentStudent, vertexState);
 
-    if (vertexState[1] > 0) {
-        free(vertexState);
-        return 1;
-    }
-
-    if (vertexState[2] > 0) {
-        free(vertexState);
-        return 2;
-    }
-
-    if (vertexState[3] > 0) {
-        free(vertexState);
-        return 3;
+    for (int i = 1; i <= 3; ++i) {
+        if (vertexState[i] > 0) {
+            free(vertexState);
+            return i;
+        }
     }
 
     free(vertexState);
-    return -1;
+    return 0;
 }
 
 // Возвращает двумерный массив, где внутренние массивы длины 2 связывают номер студента и сданный им вариант(или -1, если работы нет).
@@ -81,18 +101,18 @@ int** findStudentsWorks(Graph* worksConnectionsGraph, Edge** worksConnectionEdge
     return worksVariants;
 }
 
-void printWorksInformation(int** studentsWorksVariants, int studentsNumber)
+void printWorksInformation(int** studentsWorksVariants, int studentsNumber, int* studentsWithoutWork, int studentWithoutWorkNumber)
 {
     printf("Номера студентов, которых надо отчислить: ");
-    for (int i = 0; i < studentsNumber; ++i)
-        if (studentsWorksVariants[i][1] == -1) // Если текущий студент ничего не сдал.
-            printf("%d ", studentsWorksVariants[i][0]); // Выводим его номер.
+    for (int i = 0; i < studentWithoutWorkNumber; ++i) {
+        printf("%d ", studentsWithoutWork[i]);
+    }
     printf("\n");
 
-    printf("Номера студентов и варианты списанных ими работ: ");
+    printf("Номера студентов и варианты списанных ими работ:\n");
     for (int i = 0; i < studentsNumber; ++i)
         if (studentsWorksVariants[i][1] != -1)
-            printf("%d - %d ", studentsWorksVariants[i][0], studentsWorksVariants[i][1]);
+            printf("%d - %d\n", studentsWorksVariants[i][0], studentsWorksVariants[i][1]);
 }
 
 void destroyEdgesArray(Edge** edgesArray, int arrayLength)
@@ -102,7 +122,7 @@ void destroyEdgesArray(Edge** edgesArray, int arrayLength)
     free(edgesArray);
 }
 
-int destroyWorksVariantsArray(int** array, int arrayLength)
+void destroyWorksVariantsArray(int** array, int arrayLength)
 {
     for (int i = 0; i < arrayLength; ++i)
         free(array[i]);
@@ -111,17 +131,22 @@ int destroyWorksVariantsArray(int** array, int arrayLength)
 
 int main()
 {
-    int studentsNumber = getStudentsNumber();
+    int studentsNumber = getStudentsNumber(); // Общее число студентов.
     int maxStudentNumber = 0;
-    Edge** worksConnectionsEdges = getWorksConnectionsEdges(studentsNumber, &maxStudentNumber);
-    Graph* worksConnectionsGraph = createGraph(studentsNumber, maxStudentNumber + 1, worksConnectionsEdges);
-    int** studentsWorksVariants = findStudentsWorks(worksConnectionsGraph, worksConnectionsEdges, studentsNumber, maxStudentNumber);
+    int studentsWithoutWorkNumber = 0; // Число студентов без работы.
+    int studentsWithWorkNumber = 0; // Число студентов с работой.
+    int* studentsWithoutWork = NULL; // Массив с номерами студентов без работы.
 
-    printWorksInformation(studentsWorksVariants, studentsNumber);
+    Edge** worksConnectionsEdges = getWorksConnectionsEdges(studentsNumber, &maxStudentNumber, &studentsWithoutWork, &studentsWithoutWorkNumber, &studentsWithWorkNumber);
+    Graph* worksConnectionsGraph = createGraph(studentsWithWorkNumber, maxStudentNumber + 1, worksConnectionsEdges);
+    int** studentsWorksVariants = findStudentsWorks(worksConnectionsGraph, worksConnectionsEdges, studentsWithWorkNumber, maxStudentNumber);
+
+    printWorksInformation(studentsWorksVariants, studentsWithWorkNumber, studentsWithoutWork, studentsWithoutWorkNumber);
 
     destroyGraph(worksConnectionsGraph);
-    destroyEdgesArray(worksConnectionsEdges, studentsNumber);
-    destroyWorksVariantsArray(studentsWorksVariants, studentsNumber);
+    destroyEdgesArray(worksConnectionsEdges, studentsWithWorkNumber);
+    destroyWorksVariantsArray(studentsWorksVariants, studentsWithWorkNumber);
+    free(studentsWithoutWork);
 
     return 0;
 }

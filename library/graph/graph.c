@@ -40,6 +40,9 @@ Graph* createGraph(int countEdges, int countVertex, Edge** edges)
     }
 
     for (int i = 0; i < countEdges; ++i) {
+        if (edges[i] == NULL)
+            continue;
+
         graph->matrix[edges[i]->start][edges[i]->end] = edges[i]->weight;
         if (!edges[i]->oriented)
             graph->matrix[edges[i]->end][edges[i]->start] = edges[i]->weight;
