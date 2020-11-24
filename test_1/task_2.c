@@ -58,4 +58,10 @@ int main()
 
     printf("Первая матрица, умноженная на %f:\n", multiplicationNumber);
     printMatrix(numberMultiplicationMatrix);
+
+    destroyMatrix(firstMatrix);
+    destroyMatrix(secondMatrix);
+    destroyMatrix(sumMatrix);
+    destroyMatrix(subtractionMatrix);
+    destroyMatrix(multiplicationMatrix);
 }
