@@ -110,7 +110,7 @@ Matrix* multiplyMatrix(Matrix* firstMatrix, Matrix* secondMatrix)
         for (int j = 0; j < firstHeight; ++j) {
             matrixArray[i][j] = 0;
             for (int k = 0; k < secondHeight; ++k)
-                matrixArray[i][j] += firstMatrix->matrixArray[k][i] * secondMatrix->matrixArray[j][k];
+                matrixArray[i][j] += firstMatrix->matrixArray[i][k] * secondMatrix->matrixArray[k][j];
         }
 
     Matrix* resultMatrix = createMatrix(firstHeight, secondWidth, matrixArray);
