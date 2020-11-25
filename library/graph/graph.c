@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 struct Edge {
     int start;
@@ -91,6 +92,51 @@ bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState)
     return false;
 }
 
+int* dijkstraAlgorithm(Graph* graph, int startVertex)
+{
+    int vertexCount = getGraphVertexCount(graph);
+    int edgesCount = getGraphEdgesCount(graph);
+
+    const int INF = 2000000000;
+
+    int* distances = (int*)malloc(vertexCount * sizeof(int));
+    bool* usedVertexes = (bool*)malloc(vertexCount * sizeof(bool));
+
+    for (int i = 0; i < vertexCount; ++i) {
+        distances[i] = INF;
+        usedVertexes[i] = false;
+    }
+
+    distances[startVertex] = 0;
+
+    int** weights = graph->matrix;
+
+    int minDistance = 0;
+    int minVertex = startVertex;
+
+    while (minDistance < INF) {
+        int i = minVertex;
+        usedVertexes[i] = true;
+
+        for (int j = 0; j < vertexCount; ++j) {
+            if (weights[i][j] != 0 && distances[i] + weights[i][j] < distances[j])
+                distances[j] = distances[i] + weights[i][j];
+        }
+
+        minDistance = INF;
+        for (int j = 0; j < vertexCount; ++j) {
+            if (!usedVertexes[j] && distances[j] < minDistance) {
+                minDistance = distances[j];
+                minVertex = j;
+            }
+        }
+    }
+
+    free(usedVertexes);
+
+    return distances;
+}
+
 bool isCycled(Graph* graph)
 {
     int* vertexState = (int*)malloc(graph->countVertex * sizeof(int));
@@ -127,4 +173,34 @@ int getEdgeWeight(Edge* edge)
         return 0;
 
     return edge->weight;
+}
+
+int getGraphVertexCount(Graph* graph)
+{
+    if (graph == NULL)
+        return 0;
+
+    return graph->countVertex;
+}
+
+int getGraphEdgesCount(Graph* graph)
+{
+    if (graph == NULL)
+        return 0;
+
+    return graph->countEdges;
+}
+
+void printGraph(Graph* graph)
+{
+    for (int i = 0; i < graph->countVertex; ++i) {
+        for (int j = 0; j < graph->countVertex; ++j) {
+            int weight = graph->matrix[i][j];
+
+            if (weight == 0)
+                continue;
+
+            printf("%d -> %d %d\n", i, j, weight);
+        }
+    }
 }

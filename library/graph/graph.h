@@ -25,4 +25,12 @@ int getEdgeEnd(Edge* edge);
 
 int getEdgeWeight(Edge* edge);
 
+int getGraphVertexCount(Graph* graph);
+
+int getGraphEdgesCount(Graph* graph);
+
+void printGraph(Graph* graph);
+
+int* dijkstraAlgorithm(Graph* graph, int startVertex);
+
 #endif
