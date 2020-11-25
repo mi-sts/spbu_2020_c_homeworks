@@ -61,8 +61,9 @@ void addCityToCountry(Country* country, int cityNumber)
     country->citiesCount++;
 }
 
-void getCitiesEdges(FILE* inputFile, Edge*** citiesEdgesPointer, int edgesCount) {
-    *citiesEdgesPointer = (Edge**)malloc(edgesCount * sizeof(Edge *));
+void getCitiesEdges(FILE* inputFile, Edge*** citiesEdgesPointer, int edgesCount)
+{
+    *citiesEdgesPointer = (Edge**)malloc(edgesCount * sizeof(Edge*));
     int firstCityNumber = 0, secondCityNumber = 0;
     int length = 0;
     for (int i = 0; i < edgesCount; ++i) {
