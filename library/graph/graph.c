@@ -193,6 +193,9 @@ int getGraphEdgesCount(Graph* graph)
 
 void printGraph(Graph* graph)
 {
+    if (graph == NULL)
+        return;
+
     for (int i = 0; i < graph->countVertex; ++i) {
         for (int j = 0; j < graph->countVertex; ++j) {
             int weight = graph->matrix[i][j];
