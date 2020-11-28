@@ -4,8 +4,8 @@
 #include <string.h>
 
 enum CellType { empty,
-        used,
-        deleted };
+    used,
+    deleted };
 
 typedef struct HashElement {
     char* key;
