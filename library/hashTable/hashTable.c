@@ -1,10 +1,11 @@
-#include "../commonUtils/numericOperations.h"
 #include "hashTable.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-enum CellType { empty, used, deleted };
+enum CellType { empty,
+        used,
+        deleted };
 
 typedef struct HashElement {
     char* key;
@@ -53,7 +54,8 @@ HashTable* createHashTableWithSize(int polynomFactor, int size)
     return newTable;
 }
 
-HashTable* createHashTable(int polynomFactor) {
+HashTable* createHashTable(int polynomFactor)
+{
     return createHashTableWithSize(polynomFactor, 1);
 }
 
@@ -89,7 +91,8 @@ void destroyHashElement(HashElement* hashElement)
     free(hashElement);
 }
 
-void destroyHashTable(HashTable* table) {
+void destroyHashTable(HashTable* table)
+{
     for (int i = 0; i < table->bucketCount; ++i)
         destroyHashElement(table->hashTable[i]);
 
@@ -98,7 +101,8 @@ void destroyHashTable(HashTable* table) {
     free(table);
 }
 
-void expandTable(HashTable* table) {
+void expandTable(HashTable* table)
+{
     HashElement** oldElements = table->hashTable;
     enum CellType* oldTypes = table->types;
 
@@ -207,7 +211,7 @@ bool getElementValueByKey(HashTable* table, char* key, int* result)
     int currentIndex = startIndex;
     int currentProbeIndexNumber = 1;
 
-    while(table->types[currentIndex] == used) {
+    while (table->types[currentIndex] == used) {
         if (strcmp(table->hashTable[currentIndex]->key, key) == 0) {
             *result = table->hashTable[currentIndex]->value;
             return true;

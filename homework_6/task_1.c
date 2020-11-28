@@ -93,7 +93,8 @@ void sortWordElementsByOccurrence(HashElement** wordElements, int wordCount)
     qsort(wordElements, wordCount, sizeof(HashElement*), compareWordByOccurrence);
 }
 
-float getAverageProbesSequenceLength(HashElement** wordElements, int wordCount) {
+float getAverageProbesSequenceLength(HashElement** wordElements, int wordCount)
+{
     if (wordCount <= 0)
         return 0.0f;
 
