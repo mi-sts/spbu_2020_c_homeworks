@@ -11,11 +11,6 @@ bool isAlphabetSymbol(char symbol)
     return symbol >= 'a' && symbol <= 'z' || symbol >= 'A' && symbol <= 'Z';
 }
 
-bool isWordSymbol(char symbol)
-{
-    return symbol == '\'';
-}
-
 char toLower(char symbol)
 {
     if (!isAlphabetSymbol(symbol))
@@ -39,7 +34,7 @@ char* getNextWordFromFile(FILE* inputFile)
     char* word = (char*)calloc(currentLengthBorder + 1, sizeof(char));
 
     char currentSymbol = (char)fgetc(inputFile);
-    while (!isAlphabetSymbol(currentSymbol) && !isWordSymbol(currentSymbol)) {
+    while (!isAlphabetSymbol(currentSymbol)) {
         if (feof(inputFile)) {
             isFileEmpty = true;
             break;
@@ -48,7 +43,7 @@ char* getNextWordFromFile(FILE* inputFile)
         currentSymbol = (char)fgetc(inputFile);
     }
 
-    while (!isFileEmpty && (isAlphabetSymbol(currentSymbol) || isWordSymbol(currentSymbol))) {
+    while (!isFileEmpty && isAlphabetSymbol(currentSymbol)) {
         word[currentLength] = toLower(currentSymbol);
 
         isFileEmpty = feof(inputFile);
@@ -153,6 +148,8 @@ void printTopMostCommonWords(HashElement** wordElements, int wordCount, int topC
 
 void printHashTableInfo(HashTable* hashTable, HashElement** wordElements, int wordCount, int topCount)
 {
+
+    printHashTableElements(hashTable);
     float loadFactor = getLoadFactor(hashTable);
     float averageProbesSequenceLength = getAverageProbesSequenceLength(wordElements, wordCount);
     int maxProbesSequenceLength = getMaxProbesSequenceLength(wordElements, wordCount);
