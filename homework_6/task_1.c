@@ -148,8 +148,6 @@ void printTopMostCommonWords(HashElement** wordElements, int wordCount, int topC
 
 void printHashTableInfo(HashTable* hashTable, HashElement** wordElements, int wordCount, int topCount)
 {
-
-    printHashTableElements(hashTable);
     float loadFactor = getLoadFactor(hashTable);
     float averageProbesSequenceLength = getAverageProbesSequenceLength(wordElements, wordCount);
     int maxProbesSequenceLength = getMaxProbesSequenceLength(wordElements, wordCount);
