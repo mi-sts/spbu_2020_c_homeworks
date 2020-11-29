@@ -67,7 +67,6 @@ char* getNextWordFromFile(FILE* inputFile)
 void addWordsFromFileToHashTable(HashTable* hashTable, FILE* file)
 {
     char* currentWord = getNextWordFromFile(file);
-    int sameWordCount = 0;
 
     while (currentWord != NULL) {
         addElement(hashTable, currentWord, 1);
@@ -134,7 +133,8 @@ void printTopMostCommonWords(HashElement** wordElements, int wordCount, int topC
 
     for (int i = 0; i < topCount; ++i) {
         char* elementKey = getElementKey(wordElements[i]);
-        printf("%s ", elementKey);
+        int elementCount = getElementValue(wordElements[i]);
+        printf("%s - %d\n", elementKey, elementCount);
         free(elementKey);
     }
     printf("\n");
@@ -158,7 +158,7 @@ void printHashTableInfo(HashTable* hashTable, HashElement** wordElements, int wo
     printMaxProbesSequenceLengthWords(wordElements, wordCount, maxProbesSequenceLength);
     printf("Общее число добавленных слов: %d\n", wordCount);
     printf("Число пустых ячеек таблицы: %d\n", freeBucketCount);
-    printf("Топ-%d самых встречаемых слов: ", topCount);
+    printf("Топ-%d самых встречаемых слов:\n", topCount);
     printTopMostCommonWords(wordElements, wordCount, topCount);
 }
 
@@ -170,6 +170,7 @@ int main()
     addWordsFromFileToHashTable(hashTable, inputFile);
 
     int wordCount = 0;
+
     HashElement** wordElements = getHashTableElements(hashTable, &wordCount);
 
     printHashTableInfo(hashTable, wordElements, wordCount, 10);

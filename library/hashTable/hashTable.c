@@ -61,7 +61,7 @@ HashTable* createHashTable(int polynomFactor)
 
 bool isHashTableEmpty(HashTable* table)
 {
-    return table->bucketCount == 0;
+    return table->elementCount == 0;
 }
 
 int getHash(HashTable* table, char* key)
