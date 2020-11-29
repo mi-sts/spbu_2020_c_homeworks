@@ -131,9 +131,7 @@ void expandTable(HashTable* table)
 
 int getProbeSequenceIndex(HashTable* table, int startIndex, int probeNumber)
 {
-    int index = (startIndex + (1 + probeNumber) * probeNumber / 2) % table->bucketCount;
-
-    return index;
+    return (startIndex + (1 + probeNumber) * probeNumber / 2) % table->bucketCount;;
 }
 
 void addElement(HashTable* table, char* key, int value)
@@ -143,6 +141,11 @@ void addElement(HashTable* table, char* key, int value)
     int currentProbeIndex = 0;
 
     while (table->types[currentIndex] == used) {
+        if (strcmp(table->hashTable[currentIndex]->key, key) == 0) {
+            table->hashTable[currentIndex]->value++;
+            table->elementCount++;
+            return;
+        }
         currentIndex = getProbeSequenceIndex(table, startIndex, currentProbeIndex);
         currentProbeIndex++;
     }
@@ -165,10 +168,12 @@ bool deleteElement(HashTable* table, char* key)
     int currentIndex = startIndex;
     int currentProbeIndexNumber = 1;
 
-    while (table->types[currentIndex] == used) {
+    for (int i = 0; i < table->bucketCount; ++i) {
         if (strcmp(table->hashTable[currentIndex]->key, key) == 0) {
             table->types[currentIndex] = deleted;
             destroyHashElement(table->hashTable[currentIndex]);
+            table->hashTable[currentIndex] = NULL;
+            table->elementCount--;
             return true;
         }
 

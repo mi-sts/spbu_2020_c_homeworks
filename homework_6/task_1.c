@@ -14,7 +14,7 @@ bool isAlphabetSymbol(char symbol)
 char toLower(char symbol)
 {
     if (!isAlphabetSymbol(symbol))
-        return NULL;
+        return ' ';
 
     if (symbol >= 'A' && symbol <= 'Z')
         return symbol - 'A' + 'a';
@@ -67,16 +67,10 @@ char* getNextWordFromFile(FILE* inputFile)
 void addWordsFromFileToHashTable(HashTable* hashTable, FILE* file)
 {
     char* currentWord = getNextWordFromFile(file);
-    HashElement* currentWordElement = NULL;
     int sameWordCount = 0;
 
     while (currentWord != NULL) {
-        if (getElementValueByKey(hashTable, currentWord, &sameWordCount)) {
-            deleteElement(hashTable, currentWord);
-            addElement(hashTable, currentWord, sameWordCount + 1);
-        } else {
-            addElement(hashTable, currentWord, 1);
-        }
+        addElement(hashTable, currentWord, 1);
 
         free(currentWord);
         currentWord = getNextWordFromFile(file);
@@ -127,11 +121,10 @@ void printMaxProbesSequenceLengthWords(HashElement** wordElements, int wordCount
     for (int i = 0; i < wordCount; ++i)
         if (getElementProbesSequenceLength(wordElements[i]) == maxProbesSequenceLength) {
             char* elementKey = getElementKey(wordElements[i]);
-            printf("%s ", elementKey);
+            int elementCount = getElementValue(wordElements[i]);
+            printf("%s - %d\n", elementKey, elementCount);
             free(elementKey);
         }
-
-    printf("\n");
 }
 
 void printTopMostCommonWords(HashElement** wordElements, int wordCount, int topCount)
@@ -161,7 +154,7 @@ void printHashTableInfo(HashTable* hashTable, HashElement** wordElements, int wo
     printf("Load factor: %f\n", loadFactor);
     printf("Среднее количество проб при добавлении элемента: %f\n", averageProbesSequenceLength);
     printf("Максимальное количество проб при добавлении элемента: %d\n", maxProbesSequenceLength);
-    printf("Слова с максимальным количеством проб: ");
+    printf("Слова с максимальным количеством проб:\n");
     printMaxProbesSequenceLengthWords(wordElements, wordCount, maxProbesSequenceLength);
     printf("Общее число добавленных слов: %d\n", wordCount);
     printf("Число пустых ячеек таблицы: %d\n", freeBucketCount);
