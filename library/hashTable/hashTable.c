@@ -131,7 +131,7 @@ void expandTable(HashTable* table)
 
 int getProbeSequenceIndex(HashTable* table, int startIndex, int probeNumber)
 {
-    return (startIndex + (1 + probeNumber) * probeNumber / 2) % table->bucketCount;;
+    return (startIndex + (1 + probeNumber) * probeNumber / 2) % table->bucketCount;
 }
 
 void addElement(HashTable* table, char* key, int value)
