@@ -1,5 +1,5 @@
-#include "../library/graph/graph.h"
 #include "../library/commonUtils/numericOperations.h"
+#include "../library/graph/graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -25,7 +25,8 @@ int** getIncidenceMatrix(int* countVertex, int* countEdges)
     return incidenceMatrix;
 }
 
-int getVertexNumber() {
+int getVertexNumber()
+{
     int vertexNumber = 0;
     printf("Введите номер вершины, от которой вести поиск: ");
     scanf("%d", &vertexNumber);
