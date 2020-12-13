@@ -95,15 +95,11 @@ bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState)
 int* dijkstraAlgorithm(Graph* graph, int startVertex)
 {
     int vertexCount = getGraphVertexCount(graph);
-    int edgesCount = getGraphEdgesCount(graph);
-
-    const int INF = 2000000000;
-
     int* distances = (int*)malloc(vertexCount * sizeof(int));
     bool* usedVertexes = (bool*)malloc(vertexCount * sizeof(bool));
 
     for (int i = 0; i < vertexCount; ++i) {
-        distances[i] = INF;
+        distances[i] = -1;
         usedVertexes[i] = false;
     }
 
@@ -114,18 +110,18 @@ int* dijkstraAlgorithm(Graph* graph, int startVertex)
     int minDistance = 0;
     int minVertex = startVertex;
 
-    while (minDistance < INF) {
+    while (minDistance != -1) {
         int i = minVertex;
         usedVertexes[i] = true;
 
         for (int j = 0; j < vertexCount; ++j) {
-            if (weights[i][j] != 0 && distances[i] + weights[i][j] < distances[j])
+            if (weights[i][j] != 0 && (distances[i] + weights[i][j] < distances[j] || (distances[j] == -1 && distances[i] != -1)))
                 distances[j] = distances[i] + weights[i][j];
         }
 
-        minDistance = INF;
+        minDistance = -1;
         for (int j = 0; j < vertexCount; ++j) {
-            if (!usedVertexes[j] && distances[j] < minDistance) {
+            if (!usedVertexes[j] && distances[j] != -1 && (distances[j] < minDistance || minDistance == -1)) {
                 minDistance = distances[j];
                 minVertex = j;
             }

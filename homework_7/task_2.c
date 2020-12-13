@@ -124,8 +124,8 @@ bool removeValueFromArray(int* array, int arraySize, int value)
 
 void addNearestCityToCountry(Country* country, Graph* citiesGraph, int* freeCitiesNumbers, int* freeCitiesCount)
 {
-    int nearestCityDistance = 0;
-    int nearestCityNumber = 0;
+    int nearestCityDistance = -1;
+    int nearestCityNumber = -1;
 
     bool isNearestCityInitialized = false;
     int* minCountryDistances = country->distancesToOtherCities;
@@ -134,6 +134,9 @@ void addNearestCityToCountry(Country* country, Graph* citiesGraph, int* freeCiti
     for (int i = 0; i <= *freeCitiesCount; ++i) { // Поиск ближайшего свободного города.
         int currentCityNumber = freeCitiesNumbers[i];
         int currentCityDistance = minCountryDistances[currentCityNumber];
+
+        if (currentCityDistance == -1) // Если город недостижим.
+            continue;
 
         if (!isNearestCityInitialized) {
             nearestCityNumber = currentCityNumber;
@@ -148,6 +151,9 @@ void addNearestCityToCountry(Country* country, Graph* citiesGraph, int* freeCiti
         }
     }
 
+    if (nearestCityDistance == -1)
+        return;
+
     if (removeValueFromArray(freeCitiesNumbers, *freeCitiesCount, nearestCityNumber)) { // Удаление номера города из массива свободных городов.
         (*freeCitiesCount)--;
     }
@@ -155,8 +161,19 @@ void addNearestCityToCountry(Country* country, Graph* citiesGraph, int* freeCiti
     int* nearestCityDistances = dijkstraAlgorithm(citiesGraph, nearestCityNumber); // Поиск расстояний от найденного ближайшего города до остальных городов.
     int* minCityDistances = (int*)calloc(citiesCount, sizeof(int));
 
-    for (int i = 0; i < getGraphVertexCount(citiesGraph); ++i) // Обновление расстояний от страны до других городов.
+    for (int i = 0; i < getGraphVertexCount(citiesGraph); ++i) { // Обновление расстояний от страны до других городов.
+        if (country->distancesToOtherCities[i] == -1) { // Если до обновления расстояний i-й город был недостижим.
+            minCityDistances[i] = nearestCityDistances[i];
+            continue;
+        }
+
+        if (nearestCityDistances[i] == -1) { // Если для теку
+            minCityDistances[i] = country->distancesToOtherCities[i];
+            continue;
+        }
+
         minCityDistances[i] = min(nearestCityDistances[i], country->distancesToOtherCities[i]);
+    }
 
     addCityToCountry(country, nearestCityNumber);
     setCountryDistancesToOtherCities(country, minCityDistances);
