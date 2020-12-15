@@ -1,5 +1,6 @@
 #include "graph.h"
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -64,16 +65,24 @@ Graph* createGraphWithIncidenceMatrix(int** incidenceMatrix, int countEdges, int
         startVertex = -1;
         endVertex = -1;
 
+        bool oriented = true;
+
         for (int j = 0; j < countVertex; ++j) {
             if (incidenceMatrix[i][j] == 1)
                 startVertex = j;
             else if (incidenceMatrix[i][j] == -1)
                 endVertex = j;
+            else if (incidenceMatrix[i][j] == 2) {
+                startVertex = j;
+                endVertex = j;
+                oriented = false;
+                break;
+            }
         }
         if (startVertex == -1 || endVertex == -1)
             continue;
 
-        Edge* currentEdge = createEdge(startVertex, endVertex, 1, true);
+        Edge* currentEdge = createEdge(startVertex, endVertex, 1, oriented);
         edges[edgesIndex] = currentEdge;
         edgesIndex++;
     }
@@ -119,6 +128,29 @@ bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState)
             if (vertexState[i] == 0)
                 if (depthFirstSearch(graph, i, vertexState))
                     return true;
+        }
+    }
+
+    vertexState[currentVertex] = 2;
+
+    return false;
+}
+
+bool depthFirstSearchWithVisualisation(Graph* graph, int currentVertex, int* vertexState)
+{
+    printf("%d\n", currentVertex);
+
+    vertexState[currentVertex] = 1;
+
+    for (int i = 0; i < graph->countVertex; i++) {
+        if (graph->matrix[currentVertex][i] != 0) {
+            if (vertexState[i] == 1)
+                return true;
+
+            if (vertexState[i] == 0) {
+                if (depthFirstSearchWithVisualisation(graph, i, vertexState))
+                    return true;
+            }
         }
     }
 

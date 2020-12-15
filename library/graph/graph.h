@@ -27,4 +27,6 @@ int getEdgeEnd(Edge* edge);
 
 int getEdgeWeight(Edge* edge);
 
+bool depthFirstSearchWithVisualisation(Graph* graph, int currentVertex, int* vertexState);
+
 #endif
