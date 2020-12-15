@@ -1,6 +1,6 @@
+#include "../library/graph/graph.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "../library/graph/graph.h"
 
 int** getIncidenceMatrix(int* countVertex, int* countEdges)
 {
