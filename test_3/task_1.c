@@ -1,7 +1,7 @@
+#include "../library/hashTable/hashTable.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../library/hashTable/hashTable.h"
 
 const int POLYNOM_FACTOR = 5;
 
@@ -10,7 +10,8 @@ void printUserInfo()
     printf("Введите целые числа(для завершения ввода введите 0): ");
 }
 
-int getNumberLength(int number) {
+int getNumberLength(int number)
+{
     int length = 0;
     while (number != 0) {
         number /= 10;
@@ -61,7 +62,8 @@ void destroyHashElementArray(HashElement** array, int arraySize)
     free(array);
 }
 
-void printNumbers(HashTable* numbers) {
+void printNumbers(HashTable* numbers)
+{
     int numbersCount = 0;
     HashElement** numbersElements = getHashTableElements(numbers, &numbersCount);
     sortNumbersByOccurrence(numbersElements, numbersCount);
