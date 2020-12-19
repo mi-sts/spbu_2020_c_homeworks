@@ -89,7 +89,7 @@ void addTransition(DFAState* firstState, char value, DFAState* secondState)
     firstState->transitionsSize++;
 }
 
-bool isStringCorrect (char* string, DFA* dfa)
+bool isStringCorrect(char* string, DFA* dfa)
 {
     DFAState* currentDfaState = dfa->initialState;
     for (int i = 0; i < strlen(string); ++i) {
@@ -115,7 +115,7 @@ void reallocBoolArray(bool** arrayPointer, int oldSize)
 }
 
 void printDFAStateTransitions(DFAState* dfaState)
-{  
+{
     for (int i = 0; i < dfaState->transitionsSize; ++i) {
         Transition* transition = dfaState->transitions[i];
         printf("(%d %c) -> %d\n", dfaState->id, transition->symbol, transition->transitionState->id);
@@ -139,7 +139,7 @@ void printDFATransitionsRecursive(DFAState* currentState, bool* used, int* usedS
     }
 }
 
-void printDFATransitions(DFA* dfa) 
+void printDFATransitions(DFA* dfa)
 {
     int usedSize = 1;
     bool* used = (bool*)calloc(usedSize, sizeof(bool));
