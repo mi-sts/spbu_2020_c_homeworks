@@ -11,6 +11,8 @@ Edge* createEdge(int start, int end, int weight, bool oriented);
 
 Graph* createGraph(int countEdges, int countVertex, Edge** edges);
 
+Graph* createGraphWithIncidenceMatrix(int** incidenceMatrix, int countEdges, int countVertex);
+
 void destroyGraph(Graph* graph);
 
 bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState);

@@ -52,6 +52,42 @@ Graph* createGraph(int countEdges, int countVertex, Edge** edges)
     return graph;
 }
 
+Graph* createGraphWithIncidenceMatrix(int** incidenceMatrix, int countEdges, int countVertex)
+{
+    Edge** edges = (Edge**)calloc(countEdges, sizeof(Edge*));
+
+    int startVertex = 0;
+    int endVertex = 0;
+
+    int edgesIndex = 0;
+
+    for (int i = 0; i < countEdges; ++i) {
+        startVertex = -1;
+        endVertex = -1;
+
+        for (int j = 0; j < countVertex; ++j) {
+            if (incidenceMatrix[i][j] == 1)
+                startVertex = j;
+            else if (incidenceMatrix[i][j] == -1)
+                endVertex = j;
+        }
+        if (startVertex == -1 || endVertex == -1)
+            continue;
+
+        Edge* currentEdge = createEdge(startVertex, endVertex, 1, true);
+        edges[edgesIndex] = currentEdge;
+        edgesIndex++;
+    }
+
+    Graph* graph = createGraph(edgesIndex, countVertex, edges);
+
+    for (int i = 0; i < edgesIndex; ++i)
+        free(edges[i]);
+    free(edges);
+
+    return graph;
+}
+
 void destroyGraph(Graph* graph)
 {
     for (int i = 0; i < graph->countVertex; ++i)
