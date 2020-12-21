@@ -5,4 +5,6 @@ long long nonnegativeNumberInput(char* preInputMessage);
 
 long long naturalNumberInput(char* preInputMessage);
 
+char* getInputString();
+
 #endif
