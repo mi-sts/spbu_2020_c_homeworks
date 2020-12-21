@@ -1,5 +1,6 @@
 #include "graph.h"
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -51,6 +52,42 @@ Graph* createGraph(int countEdges, int countVertex, Edge** edges)
     return graph;
 }
 
+Graph* createGraphWithIncidenceMatrix(int** incidenceMatrix, int countEdges, int countVertex)
+{
+    Edge** edges = (Edge**)calloc(countEdges, sizeof(Edge*));
+
+    int startVertex = 0;
+    int endVertex = 0;
+
+    int edgesIndex = 0;
+
+    for (int i = 0; i < countEdges; ++i) {
+        startVertex = -1;
+        endVertex = -1;
+
+        for (int j = 0; j < countVertex; ++j) {
+            if (incidenceMatrix[i][j] == 1)
+                startVertex = j;
+            else if (incidenceMatrix[i][j] == -1)
+                endVertex = j;
+        }
+        if (startVertex == -1 || endVertex == -1)
+            continue;
+
+        Edge* currentEdge = createEdge(startVertex, endVertex, 1, true);
+        edges[edgesIndex] = currentEdge;
+        edgesIndex++;
+    }
+
+    Graph* graph = createGraph(edgesIndex, countVertex, edges);
+
+    for (int i = 0; i < edgesIndex; ++i)
+        free(edges[i]);
+    free(edges);
+
+    return graph;
+}
+
 void destroyGraph(Graph* graph)
 {
     for (int i = 0; i < graph->countVertex; ++i)
@@ -91,6 +128,47 @@ bool depthFirstSearch(Graph* graph, int currentVertex, int* vertexState)
     return false;
 }
 
+int* dijkstraAlgorithm(Graph* graph, int startVertex)
+{
+    int vertexCount = getGraphVertexCount(graph);
+    int* distances = (int*)malloc(vertexCount * sizeof(int));
+    bool* usedVertexes = (bool*)malloc(vertexCount * sizeof(bool));
+
+    for (int i = 0; i < vertexCount; ++i) {
+        distances[i] = -1;
+        usedVertexes[i] = false;
+    }
+
+    distances[startVertex] = 0;
+
+    int** weights = graph->matrix;
+
+    int minDistance = 0;
+    int minVertex = startVertex;
+
+    while (minDistance != -1) {
+        int i = minVertex;
+        usedVertexes[i] = true;
+
+        for (int j = 0; j < vertexCount; ++j) {
+            if (weights[i][j] != 0 && (distances[i] + weights[i][j] < distances[j] || (distances[j] == -1 && distances[i] != -1)))
+                distances[j] = distances[i] + weights[i][j];
+        }
+
+        minDistance = -1;
+        for (int j = 0; j < vertexCount; ++j) {
+            if (!usedVertexes[j] && distances[j] != -1 && (distances[j] < minDistance || minDistance == -1)) {
+                minDistance = distances[j];
+                minVertex = j;
+            }
+        }
+    }
+
+    free(usedVertexes);
+
+    return distances;
+}
+
 bool isCycled(Graph* graph)
 {
     int* vertexState = (int*)malloc(graph->countVertex * sizeof(int));
@@ -127,4 +205,37 @@ int getEdgeWeight(Edge* edge)
         return 0;
 
     return edge->weight;
+}
+
+int getGraphVertexCount(Graph* graph)
+{
+    if (graph == NULL)
+        return 0;
+
+    return graph->countVertex;
+}
+
+int getGraphEdgesCount(Graph* graph)
+{
+    if (graph == NULL)
+        return 0;
+
+    return graph->countEdges;
+}
+
+void printGraph(Graph* graph)
+{
+    if (graph == NULL)
+        return;
+
+    for (int i = 0; i < graph->countVertex; ++i) {
+        for (int j = 0; j < graph->countVertex; ++j) {
+            int weight = graph->matrix[i][j];
+
+            if (weight == 0)
+                continue;
+
+            printf("%d -> %d %d\n", i, j, weight);
+        }
+    }
 }
