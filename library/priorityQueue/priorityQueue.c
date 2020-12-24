@@ -1,5 +1,5 @@
-#include "../list/list.h"
 #include "priorityQueue.h"
+#include "../list/list.h"
 #include <stdio.h>
 #include <stdlib.h>
 
