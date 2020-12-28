@@ -153,6 +153,9 @@ bool deleteElement(int position, List* list)
 
 void deleteList(List* list)
 {
+    if (list == NULL)
+        return;
+
     int size = getListSize(list);
 
     for (int i = 0; i < size; ++i)
